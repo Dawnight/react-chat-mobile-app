@@ -85,8 +85,8 @@ module.exports = {
     // Note: instead of the default WebpackDevServer client, we use a custom one
     // to bring better experience for Create React App users. You can replace
     // the line below with these two lines if you prefer the stock client:
-    // require.resolve('webpack-dev-server/client') + '?/',
-    // require.resolve('webpack/hot/dev-server'),
+    // require.resolve('webpack-dev-testServer/client') + '?/',
+    // require.resolve('webpack/hot/dev-testServer'),
     require.resolve('react-dev-utils/webpackHotDevClient'),
     // Finally, this is your app's code:
     paths.appIndexJs,
@@ -131,7 +131,7 @@ module.exports = {
       process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
     ),
     // These are the reasonable defaults supported by the Node ecosystem.
-    // We also include JSX as a common component filename extension to support
+    // We also include JSX as a common components filename extension to support
     // some tools, although we do not recommend using it, see:
     // https://github.com/facebook/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
@@ -141,6 +141,10 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      'src': path.resolve('src'),
+      'components': path.resolve('src/components'),
+      'container': path.resolve('src/container'),
+      'static': path.resolve('src/static'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -350,7 +354,7 @@ module.exports = {
     // See https://github.com/facebook/create-react-app/issues/240
     new CaseSensitivePathsPlugin(),
     // If you require a missing module and then `npm install` it, you still have
-    // to restart the development server for Webpack to discover it. This plugin
+    // to restart the development testServer for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebook/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
