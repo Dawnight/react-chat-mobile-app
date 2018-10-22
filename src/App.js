@@ -1,11 +1,25 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
+import store from './store/';
+
+import {Provider} from 'react-redux';
+import {BrowserRouter, Route} from 'react-router-dom';
+
+import AuthRoute from 'components/AuthRoute';
+import Login from 'container/Login/';
+import Register from 'container/Register/';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h2>hello, react</h2>
-      </div>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Fragment>
+            <AuthRoute/>
+            <Route path="/login" component={Login}/>
+            <Route path="/register" component={Register}/>
+          </Fragment>
+        </BrowserRouter>
+      </Provider>
     );
   }
 }
