@@ -17,6 +17,7 @@ const DB_URL = `${MONGODB.prefix}${MONGODB.host}:${MONGODB.port}/${MONGODB.datab
 initSchemas();
 
 const userRouter = require('./routes/UserRoute');
+const ChatRouter = require('./routes/ChatRoute');
 
 mongoose.Promise = global.Promise;
 mongoose.set('debug', true);
@@ -25,29 +26,28 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-
-
 app.use('/user', userRouter);
+app.use('/chat', ChatRouter);
 
 connect();
 
 function connect() {
-  mongoose.connect(DB_URL);
-  
+  mongoose.connect(DB_URL, {useNewUrlParser: true});
+
   mongoose.connection.on('error', () => {
     log(`MongoDB Connected error...`, 'red');
   });
-  
+
   mongoose.connection.on('disconnected', () => {
     log(`MongoDB Disconnected...`, 'red');
   });
-  
+
   mongoose.connection.once('open', listen);
-  
+
   log(`MongoDB Connected Successfully...`, 'green');
 }
 
-function initSchemas () {
+function initSchemas() {
   glob.sync(resolve(__dirname, './schemas/', '**/*.js')).forEach(elem => {
     console.log(elem);
     require(elem);
