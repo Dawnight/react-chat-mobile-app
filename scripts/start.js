@@ -18,7 +18,7 @@ require('../config/env');
 const fs = require('fs');
 const chalk = require('chalk');
 const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-testServer');
+const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 const {
@@ -97,7 +97,7 @@ checkBrowsers(paths.appPath, isInteractive)
       if (isInteractive) {
         clearConsole();
       }
-      console.log(chalk.cyan('Starting the development testServer...\n'));
+      console.log(chalk.cyan('Starting the development server...\n'));
       openBrowser(urls.localUrlForBrowser);
     });
 
