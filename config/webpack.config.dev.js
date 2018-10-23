@@ -145,6 +145,7 @@ module.exports = {
       'components': path.resolve('src/components'),
       'container': path.resolve('src/container'),
       'static': path.resolve('src/static'),
+      'store': path.resolve('src/store'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
