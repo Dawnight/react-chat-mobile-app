@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const utility = require('utility');
 const User = mongoose.model('User');
 const {CODE_OK, CODE_ERROR} = require('../config');
+const {MD5PASSWORD} = require('../utils');
 
 /** 过滤条件显示结果 **/
 const __filter = {
@@ -10,28 +12,8 @@ const __filter = {
 
 /** 测试，查看node与mongoose的状态 **/
 exports.getUserTest = async (ctx, next) => {
-  let user = await User.findOne({userName: 'mark'});
-  if (!user) {
-    user = new User({
-      userName: 'SHERRY',
-      password: 'SHERRY PASSWORD',
-      type: 'genius',
-      title: 'A COMPANY genius',
-      desc: 'VERY RICH',
-      meta: {
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      }
-    });
-    try {
-      await user.save();
-    } catch (e) {
-      return (ctx.body = {
-        success: false
-      })
-    }
-    
-  }
+  let userList = await User.find({});
+  ctx.body = userList;
 };
 
 exports.getUserInfo = async (ctx, next) => {
@@ -75,8 +57,9 @@ exports.userRegister = async (ctx, next) => {
   } else {
     let user = new User({
       userName,
-      password,
       type,
+      password: MD5PASSWORD(password)
+      
     });
     try {
       await user.save();

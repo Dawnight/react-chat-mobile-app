@@ -11,6 +11,11 @@ const registerSuccess = data => ({
   data,
 });
 
+const loginSuccess = data => ({
+  type: UserActionTypes.LOGIN_SUCCESS,
+  data,
+});
+
 export const register = userInfo => {
   const {userName, password, rePassword, type} = userInfo;
   if (!userName || !password || !type) {
@@ -34,5 +39,28 @@ export const register = userInfo => {
         dispatch(errorMsg(response.msg));
       }
     });
+  };
+};
+
+
+export const login = userInfo => {
+  const {userName, password} = userInfo;
+  if (!userName) {
+    return errorMsg('请输入用户名');
+  }
+  if (!password) {
+    return errorMsg('请输入密码');
+  }
+  let param = {};
+  param.userName = userName;
+  param.password = password;
+  return dispatch => {
+    postCommonApi('/user/login', param).then(response => {
+      if (response.code === CODE_OK) {
+        dispatch(loginSuccess(param));
+      } else {
+        dispatch(errorMsg(response.msg));
+      }
+    })
   };
 };

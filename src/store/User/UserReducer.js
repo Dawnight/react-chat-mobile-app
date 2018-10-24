@@ -20,6 +20,14 @@ export default (state = defaultState, action) => {
         msg: '',
         ...action.data,
       };
+    case UserActionTypes.LOGIN_SUCCESS:
+      return {
+        ...state,
+        isAuth: true,
+        redirectTo: getRedirectPath(action),
+        msg: '',
+        ...action.data,
+      };
     case UserActionTypes.ERROR_MSG:
       return {
         ...state,
