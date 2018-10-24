@@ -9,12 +9,12 @@ const __filter = {
   __v: 0
 };
 
-/** 测试，查看node与mongoose的状态 **/
+/** /user/test 查看数据表中所有的数据信息 **/
 exports.getUserTest = async (ctx, next) => {
-  let userList = await User.find({});
-  ctx.body = userList;
+  ctx.body = await User.find({});
 };
 
+/** /user/info AuthRoute页面获取cookie验证信息 **/
 exports.getUserInfo = async (ctx, next) => {
   const userID = ctx.cookies.get('userID');
   if (!userID) {
@@ -40,7 +40,7 @@ exports.getUserInfo = async (ctx, next) => {
 
 };
 
-/** 查看所有用户列表 **/
+/** /user/list 查看所有用户type列表 **/
 exports.getUserList = async (ctx, next) => {
   const {type} = ctx.query;
   let data = await User.find({type}, __filter);
@@ -62,7 +62,7 @@ exports.updateUserInfo = async (ctx, next) => {
 
 };
 
-/** 用户注册 **/
+/** /user/register 用户注册 **/
 exports.postUserRegister = async (ctx, next) => {
   const {userName, password, type} = ctx.request.body;
 
@@ -111,7 +111,7 @@ exports.postUserRegister = async (ctx, next) => {
   }
 };
 
-/** 用户登录 **/
+/** /user/login 用户登录 **/
 exports.postUserLogin = async (ctx, next) => {
   console.log(ctx.request.body);
   const {userName, password} = ctx.request.body;
