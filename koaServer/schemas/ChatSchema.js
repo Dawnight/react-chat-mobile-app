@@ -6,7 +6,7 @@ const ChatSchema = new Schema({
   from: {type: String, require: true},
   to: {type: String, require: true},
   read: {type: Boolean, require: true},
-  content: {type: Boolean, require: true},
+  content: {type: String, require: true},
   meta: {
     createdAt: {type: Date, default: Date.now(),},
     updatedAt: {type: Date, default: Date.now(),},

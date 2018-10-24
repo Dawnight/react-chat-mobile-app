@@ -9,7 +9,7 @@ const __filter = {
 };
 
 /** 测试，查看node与mongoose的状态 **/
-exports.getUserInfo = async (ctx, next) => {
+exports.getUserTest = async (ctx, next) => {
   let user = await User.findOne({userName: 'mark'});
   if (!user) {
     user = new User({
@@ -24,13 +24,19 @@ exports.getUserInfo = async (ctx, next) => {
       }
     });
     try {
-      user = await user.save();
+      await user.save();
     } catch (e) {
       return (ctx.body = {
         success: false
       })
     }
     
+  }
+};
+
+exports.getUserInfo = async (ctx, next) => {
+  ctx.body = {
+    code: CODE_OK,
   }
 };
 
@@ -56,6 +62,38 @@ exports.updateUserInfo = async (ctx, next) => {
 
 };
 
+/** 用户注册 **/
+exports.userRegister = async (ctx, next) => {
+  const {userName, password, type} = ctx.body;
+  console.log('userName: ', userName);
+  console.log('password: ', password);
+  console.log('type: ', type);
+  let data = await User.findOne({userName}, __filter);
+  if (data) {
+    ctx.body = {
+      code: CODE_OK,
+      msg: '用户名重复',
+    }
+  } else {
+    let user = new User({
+      userName,
+      password,
+      type,
+    });
+    try {
+      await user.save();
+      ctx.body = {
+        code: CODE_OK,
+        msg: '注册成功',
+      }
+    } catch (e) {
+      return (ctx.body = {
+        code: CODE_ERROR,
+        msg: '服务器错误',
+      })
+    }
+  }
+};
 /** 用户登录 **/
 exports.userLogin = async (ctx, next) => {
   const {userName, password} = ctx.body;
@@ -71,9 +109,4 @@ exports.userLogin = async (ctx, next) => {
       data,
     }
   }
-};
-
-/** 用户注册 **/
-exports.userRegister = async (ctx, next) => {
-
 };
