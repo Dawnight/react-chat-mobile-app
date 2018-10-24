@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as UserCreateActions from 'store/User/UserCreateActions';
 import {getCommonApi, CODE_OK} from "src/utils";
 
 class AuthRoute extends Component {
@@ -12,7 +14,7 @@ class AuthRoute extends Component {
     }
     getCommonApi('/user/info').then(response => {
       if (response.code === CODE_OK) {
-        console.log(response);
+        this.props.propsLoadData(response.data);
       } else {
         this.props.history.push('/login')
       }
@@ -28,4 +30,12 @@ class AuthRoute extends Component {
   }
 }
 
-export default withRouter(AuthRoute);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  propsLoadData(data) {
+    dispatch(UserCreateActions.loadData(data));
+  }
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthRoute));

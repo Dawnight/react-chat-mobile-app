@@ -21,7 +21,7 @@ export const register = userInfo => {
   if (!userName || !password || !type) {
     return errorMsg('用户名密码必须输入');
   }
-  
+
   if (password !== rePassword) {
     return errorMsg('两次输入的密码不一致');
   }
@@ -39,7 +39,6 @@ export const register = userInfo => {
     });
   };
 };
-
 
 export const login = userInfo => {
   const {userName, password} = userInfo;
@@ -64,3 +63,8 @@ export const login = userInfo => {
     })
   };
 };
+
+export const loadData = userInfo => ({
+  type: UserActionTypes.LOAD_DATA,
+  data: userInfo,
+});

@@ -4,7 +4,7 @@ import {getRedirectPath} from "src/utils";
 const defaultState = {
   msg: '',
   isAuth: false,
-  userName: 'mark',
+  userName: '',
   password: '',
   type: '',
   redirectTo: '',
@@ -39,6 +39,11 @@ export default (state = defaultState, action) => {
         ...state,
         isAuth: false,
         msg: action.msg,
+      };
+    case UserActionTypes.LOAD_DATA:
+      return {
+        ...state,
+        ...action.data,
       };
     default:
       return state;
