@@ -13,7 +13,7 @@ userRouter.post('/register', (req, res, next) => {
 });
 
 userRouter.get('/list', (req, res, next) => {
-  res.json({'hello': "sdsds"})
+  res.json({'hello': "sdsds"});
 });
 
 

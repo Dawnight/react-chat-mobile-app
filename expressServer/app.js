@@ -29,8 +29,8 @@ mongoose.connection.once('open', () => {
   log(`MongoDB Connected Successfully...`, 'green');
 });
 
-require('./database/schemas/UserSchema');
-require('./database/schemas/ChatSchema');
+require('./schemas/UserSchema');
+require('./schemas/ChatSchema');
 
 /** mongoose END **/
 
