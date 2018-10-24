@@ -1,14 +1,29 @@
 const mongoose = require('mongoose');
-const Chat = mongoose.model('Chat');
+const User = mongoose.model('User');
 
 exports.getUserInfo = async (ctx, next) => {
-  Chat.find().exec((err, leads) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(leads);
+  let user = await User.findOne({userName: 'mark'});
+  if (!user) {
+    user = new User({
+      userName: 'MARK',
+      password: 'MARK PASSWORD',
+      type: 'BOSS',
+      title: 'A COMPANY BOSS',
+      desc: 'VERY RICH',
+      meta: {
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      }
+    });
+    console.log('user');
+    console.log(user);
+    try {
+      user = await user.save();
+    } catch (e) {
+      return (ctx.body = {
+        success: false
+      })
     }
-  });
-  let name = ctx.params.name;
-  ctx.body = `hello, ${name}`;
+    
+  }
 };
