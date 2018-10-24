@@ -33,3 +33,16 @@ export function postCommonApi(url, params) {
     return Promise.reject(err);
   });
 }
+
+export function getRedirectPath({type, avatar}) {
+  let url = '';
+  if (type === 'boss') {
+    url = '/boss';
+  } else {
+    url = '/genius';
+  }
+  if (!avatar) {
+    url += 'info';
+  }
+  return url;
+}

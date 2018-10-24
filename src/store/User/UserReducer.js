@@ -1,4 +1,5 @@
 import * as UserActionTypes from './UserActionTypes';
+import {getRedirectPath} from "src/utils";
 
 const defaultState = {
   msg: '',
@@ -6,6 +7,7 @@ const defaultState = {
   userName: 'mark',
   password: '',
   type: '',
+  redirectTo: '',
 };
 
 export default (state = defaultState, action) => {
@@ -14,6 +16,7 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         isAuth: true,
+        redirectTo: getRedirectPath(action),
         msg: '',
         ...action.data,
       };

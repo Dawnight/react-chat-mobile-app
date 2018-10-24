@@ -29,6 +29,8 @@ export const register = userInfo => {
       if (response.code === CODE_OK) {
         dispatch(registerSuccess(param));
       } else {
+        console.log('/user/register');
+        console.log(response);
         dispatch(errorMsg(response.msg));
       }
     });

@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import Logo from 'components/Logo/';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import * as UserCreateActions from 'store/User/UserCreateActions';
 import {List, InputItem, Radio, WhiteSpace, Button} from 'antd-mobile';
+import './index.css';
 
 class Register extends Component {
   
@@ -38,19 +40,19 @@ class Register extends Component {
     this.props.propsHandleRegister(param);
   }
   
-  getUserNameValue(userName){
+  getUserNameValue(userName) {
     this.setState({
       userName,
     });
   }
   
-  getPasswordValue(password){
+  getPasswordValue(password) {
     this.setState({
       password,
     });
   }
   
-  getRePasswordValue(rePassword){
+  getRePasswordValue(rePassword) {
     this.setState({
       rePassword,
     });
@@ -72,12 +74,17 @@ class Register extends Component {
     
     return (
       <div>
+        {this.props.redirectTo ? <Redirect to={this.props.redirectTo}/> : null}
         <Logo/>
         <h2>注册</h2>
         <List>
-          <InputItem type='text' value={this.state.userName} onChange={this.getUserNameValue}>用户名</InputItem><WhiteSpace/>
-          <InputItem type='text' value={this.state.password} onChange={this.getPasswordValue}>密码</InputItem><WhiteSpace/>
-          <InputItem type='text' value={this.state.rePassword} onChange={this.getRePasswordValue}>确认密码</InputItem><WhiteSpace/>
+          <p className="error-msg">{this.props.msg ? this.props.msg: null}</p>
+          <InputItem type='text' value={this.state.userName}
+                     onChange={this.getUserNameValue}>用户名</InputItem><WhiteSpace/>
+          <InputItem type='text' value={this.state.password}
+                     onChange={this.getPasswordValue}>密码</InputItem><WhiteSpace/>
+          <InputItem type='text' value={this.state.rePassword}
+                     onChange={this.getRePasswordValue}>确认密码</InputItem><WhiteSpace/>
           {
             userType.map(item => (
               <RadioItem key={item.id} checked={this.state.type === item.type} onChange={() => {
@@ -98,6 +105,7 @@ const mapStateToProps = state => ({
   password: state.user.password,
   type: state.user.type,
   msg: state.user.msg,
+  redirectTo: state.user.redirectTo,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -64,14 +64,12 @@ exports.updateUserInfo = async (ctx, next) => {
 
 /** 用户注册 **/
 exports.userRegister = async (ctx, next) => {
-  const {userName, password, type} = ctx.body;
-  console.log('userName: ', userName);
-  console.log('password: ', password);
-  console.log('type: ', type);
+  const {userName, password, type} = ctx.request.body;
+  
   let data = await User.findOne({userName}, __filter);
   if (data) {
     ctx.body = {
-      code: CODE_OK,
+      code: CODE_ERROR,
       msg: '用户名重复',
     }
   } else {
