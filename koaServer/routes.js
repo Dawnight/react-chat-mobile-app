@@ -6,11 +6,13 @@ module.exports = () => {
   const router = new Router({});
   
   /** USER **/
-  router.get('/user/:name', User.getUserInfo);
-  
+  router.get('/user/addUser', User.getUserInfo);
+  router.get('/user/list', User.getUserList);
+  router.post('/user/login', User.userLogin);
+  router.post('/user/register', User.userRegister);
   
   /** CHAT **/
-  router.get('/chat/:info', Chat.getChatInfo);
+  router.get('/chat/info', Chat.getChatInfo);
   
   return router;
 };
