@@ -1,12 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const ChatRouter = express.Router();
+const User = mongoose.model('User');
 
-// const {CODE_OK} = require('../config');
-const User = mongoose.model('Chat');
+ChatRouter.get('/user', (req, res, next) => {
+  User.find({}).exec((err, leads) => {
+    res.json(leads);
+  });
+  
+});
 
-ChatRouter.get('/', (req, res, next) => {
-  res.json({user: 'chat'});
+ChatRouter.get('/chat', (req, res, next) => {
+  res.json({});
 });
 
 module.exports = ChatRouter;

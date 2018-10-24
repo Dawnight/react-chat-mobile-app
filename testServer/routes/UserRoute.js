@@ -1,8 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = express.Router();
-
-// const {CODE_OK} = require('../config');
 const User = mongoose.model('User');
 
 userRouter.get('/info', (req, res, next) => {

@@ -22,5 +22,4 @@ ChatSchema.pre('save', function (next) {
   next();
 });
 
-
-mongoose.model('Chat', ChatSchema);
+module.exports = mongoose.model('Chat', ChatSchema);
