@@ -2,6 +2,8 @@ import axios from 'axios';
 
 export const CODE_OK = 0;
 
+export const CODE_ERROR = 1;
+
 export function getCommonApi(url, params) {
   if (!params) {
     params = {};
