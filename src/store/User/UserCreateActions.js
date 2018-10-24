@@ -32,10 +32,8 @@ export const register = userInfo => {
   return dispatch => {
     postCommonApi('/user/register', param).then(response => {
       if (response.code === CODE_OK) {
-        dispatch(registerSuccess(param));
+        dispatch(registerSuccess(response.data));
       } else {
-        console.log('/user/register');
-        console.log(response);
         dispatch(errorMsg(response.msg));
       }
     });
@@ -54,10 +52,12 @@ export const login = userInfo => {
   let param = {};
   param.userName = userName;
   param.password = password;
+  console.log('reducer login userinfo');
+  console.log(userInfo);
   return dispatch => {
     postCommonApi('/user/login', param).then(response => {
       if (response.code === CODE_OK) {
-        dispatch(loginSuccess(param));
+        dispatch(loginSuccess(response.data));
       } else {
         dispatch(errorMsg(response.msg));
       }

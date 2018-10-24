@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import store from './store/';
-
+import './static/css/common.css';
 import {Provider} from 'react-redux';
 import {BrowserRouter, Route} from 'react-router-dom';
 

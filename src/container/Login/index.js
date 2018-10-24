@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Logo from 'components/Logo/';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import * as UserCreateActions from 'store/User/UserCreateActions';
 import {List, InputItem, WingBlank, WhiteSpace, Button} from 'antd-mobile';
 
 class Login extends Component {
@@ -34,15 +36,21 @@ class Login extends Component {
   }
   
   handleLogin () {
-    // TODO ,暂留
+    const {userName, password} = this.state;
+    let param = {};
+    param.userName = userName;
+    param.password = password;
+    this.props.propsHandleLogin(param);
   }
   render() {
     return (
       <div>
+        {this.props.redirectTo ? <Redirect to={this.props.redirectTo}/> : null}
         <Logo/>
         <h2>登录</h2>
         <WingBlank>
           <List>
+            <p className="error-msg">{this.props.msg ? this.props.msg: null}</p>
             <InputItem type='text' value={this.state.userName}
                        onChange={this.getUserNameValue}>用户名</InputItem><WhiteSpace/>
             <InputItem type='text' value={this.state.password}
@@ -60,14 +68,13 @@ class Login extends Component {
 const mapStateToProps = state => ({
   userName: state.user.userName,
   password: state.user.password,
-  type: state.user.type,
-  msg: state.user.msg,
   redirectTo: state.user.redirectTo,
+  msg: state.user.msg,
 });
 
 const mapDispatchToProps = dispatch => ({
-  propsHandleRegister() {
-    dispatch();
+  propsHandleLogin(param) {
+    dispatch(UserCreateActions.login(param));
   }
 });
 

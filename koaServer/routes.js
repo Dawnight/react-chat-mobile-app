@@ -9,8 +9,8 @@ module.exports = () => {
   router.get('/user/test', User.getUserTest);
   router.get('/user/info', User.getUserInfo);
   router.get('/user/list', User.getUserList);
-  router.post('/user/login', User.userLogin);
-  router.post('/user/register', User.userRegister);
+  router.post('/user/login', User.postUserLogin);
+  router.post('/user/register', User.postUserRegister);
   
   /** CHAT **/
   router.get('/chat/info', Chat.getChatInfo);

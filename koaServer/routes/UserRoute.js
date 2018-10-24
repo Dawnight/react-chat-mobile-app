@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const utility = require('utility');
 const User = mongoose.model('User');
 const {CODE_OK, CODE_ERROR} = require('../config');
 const {MD5PASSWORD} = require('../utils');
@@ -45,7 +44,7 @@ exports.updateUserInfo = async (ctx, next) => {
 };
 
 /** 用户注册 **/
-exports.userRegister = async (ctx, next) => {
+exports.postUserRegister = async (ctx, next) => {
   const {userName, password, type} = ctx.request.body;
   
   let data = await User.findOne({userName}, __filter);
@@ -66,6 +65,7 @@ exports.userRegister = async (ctx, next) => {
       ctx.body = {
         code: CODE_OK,
         msg: '注册成功',
+        data: {userName, type},
       }
     } catch (e) {
       return (ctx.body = {
@@ -75,10 +75,12 @@ exports.userRegister = async (ctx, next) => {
     }
   }
 };
+
 /** 用户登录 **/
-exports.userLogin = async (ctx, next) => {
-  const {userName, password} = ctx.body;
-  let data = await User.findOne({userName, password}, __filter);
+exports.postUserLogin = async (ctx, next) => {
+  console.log(ctx.request.body);
+  const {userName, password} = ctx.request.body;
+  let data = await User.findOne({userName, password: MD5PASSWORD(password)}, __filter);
   if (!data) {
     ctx.body = {
       code: CODE_ERROR,

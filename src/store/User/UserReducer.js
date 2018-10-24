@@ -13,22 +13,28 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case UserActionTypes.REGISTER_SUCCESS:
+      console.log('login action');
+      console.log(action);
       return {
         ...state,
         isAuth: true,
-        redirectTo: getRedirectPath(action),
+        redirectTo: getRedirectPath(action.data),
         msg: '',
         ...action.data,
       };
     case UserActionTypes.LOGIN_SUCCESS:
+      console.log('register action');
+      console.log(action);
       return {
         ...state,
         isAuth: true,
-        redirectTo: getRedirectPath(action),
+        redirectTo: getRedirectPath(action.data),
         msg: '',
         ...action.data,
       };
     case UserActionTypes.ERROR_MSG:
+      console.log('error message');
+      console.log(action);
       return {
         ...state,
         isAuth: false,

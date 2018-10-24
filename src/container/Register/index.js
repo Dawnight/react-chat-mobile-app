@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import * as UserCreateActions from 'store/User/UserCreateActions';
 import {List, InputItem, Radio, WhiteSpace, Button} from 'antd-mobile';
-import './index.css';
 
 class Register extends Component {
   
