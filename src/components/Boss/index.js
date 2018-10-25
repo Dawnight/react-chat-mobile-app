@@ -5,7 +5,7 @@ class Boss extends Component {
   constructor(props) {
     super(props);
     this.state ={
-      geniusList: []
+      bossList: []
     };
   }
 
@@ -18,10 +18,10 @@ class Boss extends Component {
   }
 
   componentDidMount () {
-    getCommonApi('/user/genius').then(response => {
+    getCommonApi('/user/list', {type: 'boss'}).then(response => {
       if (response.code === CODE_OK) {
         this.setState({
-          geniusList: response.data
+          bossList: response.data
         })
       }
     })
