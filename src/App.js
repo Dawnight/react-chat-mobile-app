@@ -8,6 +8,7 @@ import AuthRoute from 'components/AuthRoute';
 import Login from 'container/Login/';
 import Register from 'container/Register/';
 import BossInfo from 'container/BossInfo/';
+import GeniusInfo from 'container/GeniusInfo/';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <AuthRoute/>
             <Switch>
               <Route path="/bossinfo" component={BossInfo}/>
+              <Route path="/geniusinfo" component={GeniusInfo}/>
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
             </Switch>

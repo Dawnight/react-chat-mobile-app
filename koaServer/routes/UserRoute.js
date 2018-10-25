@@ -153,6 +153,8 @@ exports.postUpdateUserInfo = async (ctx, next) => {
   
   try {
     let res = await User.findByIdAndUpdate(userID, data);
+    console.log(res);
+    console.log(data);
     ctx.body = {
       code: CODE_OK,
       data: {
@@ -163,8 +165,8 @@ exports.postUpdateUserInfo = async (ctx, next) => {
         title: data.title,
         desc: data.desc,
       }
-    }
-    
+    };
+    console.log(ctx.body);
   } catch (e) {
     ctx.body = {
       code: CODE_OK,
