@@ -2,11 +2,12 @@ import React, {Component, Fragment} from 'react';
 import store from './store/';
 import './static/css/common.css';
 import {Provider} from 'react-redux';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import AuthRoute from 'components/AuthRoute';
 import Login from 'container/Login/';
 import Register from 'container/Register/';
+import BossInfo from 'container/BossInfo/';
 
 class App extends Component {
   render() {
@@ -15,8 +16,11 @@ class App extends Component {
         <BrowserRouter>
           <Fragment>
             <AuthRoute/>
-            <Route path="/login" component={Login}/>
-            <Route path="/register" component={Register}/>
+            <Switch>
+              <Route path="/bossinfo" component={BossInfo}/>
+              <Route path="/login" component={Login}/>
+              <Route path="/register" component={Register}/>
+            </Switch>
           </Fragment>
         </BrowserRouter>
       </Provider>

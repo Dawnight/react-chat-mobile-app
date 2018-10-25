@@ -44,6 +44,7 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         ...action.data,
+        isAuth: true,
       };
     default:
       return state;

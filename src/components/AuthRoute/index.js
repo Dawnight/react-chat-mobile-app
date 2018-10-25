@@ -20,17 +20,25 @@ class AuthRoute extends Component {
       }
     })
   }
-
+  
   render() {
-    return (
-      <div>
-        auth route
-      </div>
-    )
+    const {isAuth} = this.props;
+    console.log('isAuth: ', isAuth);
+    if (isAuth) {
+      return null;
+    } else {
+      return (
+        <div>
+          auth route
+        </div>
+      )
+    }
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  isAuth: state.user.isAuth,
+});
 
 const mapDispatchToProps = dispatch => ({
   propsLoadData(data) {

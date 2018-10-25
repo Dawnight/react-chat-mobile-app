@@ -67,4 +67,5 @@ export const login = userInfo => {
 export const loadData = userInfo => ({
   type: UserActionTypes.LOAD_DATA,
   data: userInfo,
+  isAuth: true,
 });
