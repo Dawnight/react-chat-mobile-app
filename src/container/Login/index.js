@@ -13,26 +13,19 @@ class Login extends Component {
       userName: '',
       password: '',
     };
+    this.handleChange = this.handleChange.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    this.getUserNameValue = this.getUserNameValue.bind(this);
-    this.getPasswordValue = this.getPasswordValue.bind(this);
   }
 
   handleRegister() {
     this.props.history.push('/register');
   }
   
-  getUserNameValue(userName) {
+  handleChange(key, value) {
     this.setState({
-      userName,
-    });
-  }
-  
-  getPasswordValue(password) {
-    this.setState({
-      password,
-    });
+      [key]: value,
+    })
   }
   
   handleLogin () {
@@ -51,10 +44,8 @@ class Login extends Component {
         <WingBlank>
           <List>
             <p className="error-msg">{this.props.msg ? this.props.msg: null}</p>
-            <InputItem type='text' value={this.state.userName}
-                       onChange={this.getUserNameValue}>用户名</InputItem><WhiteSpace/>
-            <InputItem type='text' value={this.state.password}
-                       onChange={this.getPasswordValue}>密码</InputItem><WhiteSpace/>
+            <InputItem type='text' onChange={k=>this.handleChange('userName', k)}>用户名</InputItem><WhiteSpace/>
+            <InputItem type='text' onChange={k=>this.handleChange('password', k)}>密码</InputItem><WhiteSpace/>
           </List>
           <Button type="primary" onClick={this.handleLogin}>登录</Button>
           <WhiteSpace/>

@@ -15,9 +15,7 @@ class Register extends Component {
       rePassword: '',
       type: 'genius'
     };
-    this.getUserNameValue = this.getUserNameValue.bind(this);
-    this.getPasswordValue = this.getPasswordValue.bind(this);
-    this.getRePasswordValue = this.getRePasswordValue.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
@@ -39,32 +37,19 @@ class Register extends Component {
     this.props.propsHandleRegister(param);
   }
   
-  getUserNameValue(userName) {
+  handleChange(key, value) {
     this.setState({
-      userName,
-    });
+      [key]: value,
+    })
   }
   
-  getPasswordValue(password) {
-    this.setState({
-      password,
-    });
-  }
-  
-  getRePasswordValue(rePassword) {
-    this.setState({
-      rePassword,
-    });
-  }
-  
-  // 选择身份，修改state的值
   handleRadioChange(type) {
     this.setState({
       type,
     });
   }
-  
-  render() {
+    
+    render() {
     const RadioItem = Radio.RadioItem;
     const userType = [
       {id: 1, type: 'genius', label: '牛人'},
@@ -78,18 +63,17 @@ class Register extends Component {
         <h2>注册</h2>
         <List>
           <p className="error-msg">{this.props.msg ? this.props.msg: null}</p>
-          <InputItem type='text' value={this.state.userName}
-                     onChange={this.getUserNameValue}>用户名</InputItem><WhiteSpace/>
-          <InputItem type='text' value={this.state.password}
-                     onChange={this.getPasswordValue}>密码</InputItem><WhiteSpace/>
-          <InputItem type='text' value={this.state.rePassword}
-                     onChange={this.getRePasswordValue}>确认密码</InputItem><WhiteSpace/>
+          <InputItem type='text' onChange={k=>this.handleChange('userName', k)}>用户名</InputItem><WhiteSpace/>
+          <InputItem type='text' onChange={k=>this.handleChange('password', k)}>密码</InputItem><WhiteSpace/>
+          <InputItem type='text' onChange={k=>this.handleChange('rePassword', k)}>确认密码</InputItem><WhiteSpace/>
           {
             userType.map(item => (
               <RadioItem key={item.id} checked={this.state.type === item.type} onChange={() => {
                 this.handleRadioChange(item.type)
               }}>{item.label}</RadioItem>
             ))
+  
+  
           }
           <Button type="primary" onClick={this.handleRegister}>注册</Button><WhiteSpace/>
           <Button type="primary" onClick={this.handleLogin}>登录</Button><WhiteSpace/>
