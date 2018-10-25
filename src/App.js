@@ -9,6 +9,7 @@ import Login from 'container/Login/';
 import Register from 'container/Register/';
 import BossInfo from 'container/BossInfo/';
 import GeniusInfo from 'container/GeniusInfo/';
+import Dashboard from 'container/Dashboard/';
 
 class App extends Component {
   render() {
@@ -17,12 +18,13 @@ class App extends Component {
         <BrowserRouter>
           <Fragment>
             <AuthRoute/>
-            <Switch>
+            {/*<Switch>*/}
               <Route path="/bossinfo" component={BossInfo}/>
               <Route path="/geniusinfo" component={GeniusInfo}/>
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
-            </Switch>
+              <Route component={Dashboard}/>
+            {/*</Switch>*/}
           </Fragment>
         </BrowserRouter>
       </Provider>
