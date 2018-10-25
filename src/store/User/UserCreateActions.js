@@ -16,6 +16,12 @@ const loginSuccess = data => ({
   data,
 });
 
+const updateSuccess= data => ({
+  type: UserActionTypes.UPDATE_SUCCESS,
+  data,
+});
+
+
 export const register = userInfo => {
   const {userName, password, rePassword, type} = userInfo;
   if (!userName || !password || !type) {
@@ -69,3 +75,15 @@ export const loadData = userInfo => ({
   data: userInfo,
   isAuth: true,
 });
+
+export const updateInfo = data => {
+  return dispatch => {
+    postCommonApi('/user/update', data).then(response => {
+      if (response.code === CODE_OK) {
+        dispatch(updateSuccess(response.data));
+      } else {
+        dispatch(errorMsg(response.msg));
+      }
+    })
+  }
+};

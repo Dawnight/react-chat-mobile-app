@@ -13,7 +13,7 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case UserActionTypes.REGISTER_SUCCESS:
-      console.log('login action');
+      console.log('REGISTER_SUCCESS action');
       console.log(action);
       return {
         ...state,
@@ -23,7 +23,7 @@ export default (state = defaultState, action) => {
         ...action.data,
       };
     case UserActionTypes.LOGIN_SUCCESS:
-      console.log('register action');
+      console.log('LOGIN_SUCCESS action');
       console.log(action);
       return {
         ...state,
@@ -33,7 +33,7 @@ export default (state = defaultState, action) => {
         ...action.data,
       };
     case UserActionTypes.ERROR_MSG:
-      console.log('error message');
+      console.log('ERROR_MSG action');
       console.log(action);
       return {
         ...state,
@@ -41,10 +41,20 @@ export default (state = defaultState, action) => {
         msg: action.msg,
       };
     case UserActionTypes.LOAD_DATA:
+      console.log('LOAD_DATA action');
+      console.log(action);
       return {
         ...state,
         ...action.data,
         isAuth: true,
+      };
+    case UserActionTypes.UPDATE_SUCCESS:
+      console.log('UPDATE_SUCCESS action');
+      console.log(action);
+      return {
+        ...state,
+        msg: '',
+        redirectTo: getRedirectPath(action.data),
       };
     default:
       return state;
