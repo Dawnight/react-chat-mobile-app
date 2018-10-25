@@ -37,7 +37,7 @@ exports.getUserInfo = async (ctx, next) => {
       };
     }
   }
-
+  
 };
 
 /** /user/list 查看所有用户type列表 **/
@@ -57,15 +57,10 @@ exports.getUserList = async (ctx, next) => {
   }
 };
 
-/** 用户修改信息 **/
-exports.updateUserInfo = async (ctx, next) => {
-
-};
-
 /** /user/register 用户注册 **/
 exports.postUserRegister = async (ctx, next) => {
   const {userName, password, type} = ctx.request.body;
-
+  
   let data = await User.findOne({userName}, __filter);
   if (data) {
     ctx.body = {
@@ -77,7 +72,7 @@ exports.postUserRegister = async (ctx, next) => {
       userName,
       type,
       password: MD5PASSWORD(password)
-
+      
     });
     try {
       let data = await user.save();
@@ -98,7 +93,7 @@ exports.postUserRegister = async (ctx, next) => {
         code: CODE_OK,
         msg: '注册成功',
         data: {
-          userName:data.userName,
+          userName: data.userName,
           type: data.type,
         },
       }
@@ -140,6 +135,40 @@ exports.postUserLogin = async (ctx, next) => {
     ctx.body = {
       code: CODE_OK,
       data,
+    }
+  }
+};
+
+/** 用户更新信息 **/
+exports.postUpdateUserInfo = async (ctx, next) => {
+  console.log(ctx.body);
+  const userID = ctx.cookies.get('userID');
+  if (!userID) {
+    ctx.body = {
+      code: CODE_ERROR,
+      msg: 'no cookie'
+    };
+  }
+  const data = ctx.request.body;
+  
+  try {
+    let res = await User.findByIdAndUpdate(userID, data);
+    ctx.body = {
+      code: CODE_OK,
+      data: {
+        userName: res.userName,
+        type: res.type,
+        avatar: data.avatar,
+        company: data.company,
+        title: data.title,
+        desc: data.desc,
+      }
+    }
+    
+  } catch (e) {
+    ctx.body = {
+      code: CODE_OK,
+      msg: '未找到该用户'
     }
   }
 };

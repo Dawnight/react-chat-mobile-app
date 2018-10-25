@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import AvatarSelector from 'components/AvatarSelector/';
 import * as UserCreateActions from 'store/User/UserCreateActions';
 import {NavBar, InputItem, TextareaItem, Button} from 'antd-mobile';
@@ -43,8 +44,11 @@ class BossInfo extends Component {
   }
   
   render() {
+    const path = this.props.location.pathname;
+    const redirectTo = this.props.redirectTo;
     return (
       <div>
+        {redirectTo && redirectTo !== path ? <Redirect to={this.props.redirectTo}/> : null }
         <NavBar mode="dark">BOSS 完善信息页面</NavBar>
         <AvatarSelector handleSelectAvatar={this.handleSelectAvatar}/>
         <InputItem onChange={k => this.handleOnChange('title', k)}>招聘职位</InputItem>
@@ -59,6 +63,7 @@ class BossInfo extends Component {
 
 const mapStateToProps = state => ({
   userName: state.user.userName,
+  redirectTo: state.user.redirectTo,
 });
 
 const mapDispatchToProps = dispatch => ({

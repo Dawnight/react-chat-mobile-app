@@ -11,6 +11,7 @@ module.exports = () => {
   router.get('/user/list', User.getUserList);
   router.post('/user/login', User.postUserLogin);
   router.post('/user/register', User.postUserRegister);
+  router.post('/user/update', User.postUpdateUserInfo);
   
   /** CHAT **/
   router.get('/chat/info', Chat.getChatInfo);

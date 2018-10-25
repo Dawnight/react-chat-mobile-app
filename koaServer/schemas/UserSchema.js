@@ -6,6 +6,7 @@ const UserSchema = new Schema({
   password: {type: String, require: true},
   type: {type: String, require: true},
   title: {type: String},
+  avatar: {type: String},
   desc: {type: String},
   company: {type: String},
   money: {type: String},
