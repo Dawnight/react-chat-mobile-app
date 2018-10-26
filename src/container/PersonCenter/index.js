@@ -21,7 +21,7 @@ class PersonCenter extends Component {
   }
   
   render() {
-    const {userName, avatar, type, company, title, desc, money, redirectTo} = this.props;
+    const {userName, avatar, type, company, title, desc, salary, redirectTo} = this.props;
     const Item = List.Item;
     const Brief = Item.Brief;
     return userName ? (
@@ -36,7 +36,7 @@ class PersonCenter extends Component {
           <Item multipleLine>
             {title}
             {desc.split('\n').map(k => <Brief key={k}>{k}</Brief>)}
-            {money ? <Brief>薪资: {money}</Brief> : null}
+            {salary ? <Brief>薪资: {salary}</Brief> : null}
           </Item>
         </List>
         <WhiteSpace/>
@@ -54,7 +54,7 @@ const mapStateToProps = state => ({
   type: state.user.type,
   title: state.user.title,
   desc: state.user.desc,
-  money: state.user.money,
+  salary: state.user.salary,
   redirectTo: state.user.redirectTo,
 });
 

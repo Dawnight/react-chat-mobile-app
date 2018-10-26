@@ -60,7 +60,7 @@ exports.getUserList = async (ctx, next) => {
 /** /user/register 用户注册 **/
 exports.postUserRegister = async (ctx, next) => {
   const {userName, password, type} = ctx.request.body;
-  
+
   let data = await User.findOne({userName}, __filter);
   if (data) {
     ctx.body = {
@@ -108,7 +108,6 @@ exports.postUserRegister = async (ctx, next) => {
 
 /** /user/login 用户登录 **/
 exports.postUserLogin = async (ctx, next) => {
-  console.log(ctx.request.body);
   const {userName, password} = ctx.request.body;
   let data = await User.findOne({userName, password: MD5PASSWORD(password)}, __filter);
   if (!data) {
@@ -118,8 +117,6 @@ exports.postUserLogin = async (ctx, next) => {
     }
   } else {
     let id = data._id.toString();
-    console.log('_id.toString()');
-    console.log(id);
     ctx.cookies.set(
       'userID',
       id,
@@ -141,7 +138,6 @@ exports.postUserLogin = async (ctx, next) => {
 
 /** 用户更新信息 **/
 exports.postUpdateUserInfo = async (ctx, next) => {
-  console.log(ctx.body);
   const userID = ctx.cookies.get('userID');
   if (!userID) {
     ctx.body = {
@@ -153,8 +149,6 @@ exports.postUpdateUserInfo = async (ctx, next) => {
   
   try {
     let res = await User.findByIdAndUpdate(userID, data);
-    console.log(res);
-    console.log(data);
     ctx.body = {
       code: CODE_OK,
       data: {
@@ -166,7 +160,6 @@ exports.postUpdateUserInfo = async (ctx, next) => {
         desc: data.desc,
       }
     };
-    console.log(ctx.body);
   } catch (e) {
     ctx.body = {
       code: CODE_OK,
@@ -177,13 +170,11 @@ exports.postUpdateUserInfo = async (ctx, next) => {
 
 exports.postUserLogout = async (ctx, next) => {
   const userID = ctx.cookies.get('userID');
-  console.log('userID: ', userID);
   if (userID) {
     try {
       let data = await User.findOne({_id: userID}, __filter);
       if (data) {
         ctx.cookies.set('userID', '', {signed: false, maxAge: 0});
-        console.log(ctx.cookies);
         ctx.body = {
           code: CODE_OK,
           msg: 'clear cookie normal'

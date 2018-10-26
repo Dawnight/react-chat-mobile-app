@@ -25,7 +25,7 @@ class UserCard extends Component {
                 <Body>
                 {k.type === 'boss' ? <div>公司: {k.company}</div> : null}
                 {k.desc.split('\n').map(d => (<div key={d}>{d}</div>))}
-                {k.type === 'boss' ? <div>薪资: {k.money}</div> : null}
+                {k.type === 'boss' ? <div>薪资: {k.salary}</div> : null}
                 </Body>
               </Card>
             ) : null

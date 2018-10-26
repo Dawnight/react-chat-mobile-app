@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   avatar: {type: String},
   desc: {type: String},
   company: {type: String},
-  money: {type: String},
+  salary: {type: String},
   meta: {
     createdAt: {type: Date, default: Date.now(),},
     updatedAt: {type: Date, default: Date.now(),},
