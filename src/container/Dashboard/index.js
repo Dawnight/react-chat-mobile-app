@@ -17,7 +17,7 @@ class Dashboard extends Component {
       {
         path: '/boss',
         text: '牛人',
-        icon: 'boss',
+        icon: 'genius',
         title: '牛人列表',
         component: Boss,
         hide: type === 'genius'
@@ -25,7 +25,7 @@ class Dashboard extends Component {
       {
         path: '/genius',
         text: 'boss',
-        icon: 'genius',
+        icon: 'boss',
         title: 'BOSS列表',
         component: Genius,
         hide: type === 'boss'
