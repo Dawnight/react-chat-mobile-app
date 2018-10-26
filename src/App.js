@@ -18,13 +18,13 @@ class App extends Component {
         <BrowserRouter>
           <Fragment>
             <AuthRoute/>
-            {/*<Switch>*/}
+            <Switch>
               <Route path="/bossinfo" component={BossInfo}/>
               <Route path="/geniusinfo" component={GeniusInfo}/>
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
               <Route component={Dashboard}/>
-            {/*</Switch>*/}
+            </Switch>
           </Fragment>
         </BrowserRouter>
       </Provider>

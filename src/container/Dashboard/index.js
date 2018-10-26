@@ -49,7 +49,7 @@ class Dashboard extends Component {
     ];
     return (
       <div>
-        <NavBar className="fixed-header" mode="dark">{navList.find(k=> k.path == pathname).title || ''}</NavBar>
+        <NavBar className="fixed-header" mode="dark">{navList.find(k=> k.path === pathname).title || ''}</NavBar>
         <div style={{marginTop: 45}}>
           {navList.map(k=>(
             <Route key={k.path} path={k.path} component={k.component}/>
