@@ -16,10 +16,14 @@ const loginSuccess = data => ({
   data,
 });
 
-const updateSuccess= data => ({
-  type: UserActionTypes.UPDATE_SUCCESS,
-  data,
-});
+const updateSuccess= data => {
+  console.log('updateSuccess data');
+  console.log(data);
+  return {
+    type: UserActionTypes.UPDATE_SUCCESS,
+    data,
+  }
+};
 
 
 export const register = userInfo => {

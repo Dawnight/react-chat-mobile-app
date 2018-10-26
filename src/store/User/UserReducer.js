@@ -6,6 +6,7 @@ const defaultState = {
   isAuth: false,
   userName: '',
   password: '',
+  avatar: '',
   type: '',
   redirectTo: '',
 };
@@ -51,9 +52,11 @@ export default (state = defaultState, action) => {
     case UserActionTypes.UPDATE_SUCCESS:
       console.log('UPDATE_SUCCESS action');
       console.log(action);
+      const data = action.data || {};
       return {
         ...state,
         msg: '',
+        ...data,
         redirectTo: getRedirectPath(action.data),
       };
     default:
