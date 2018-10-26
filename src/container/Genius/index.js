@@ -1,31 +1,28 @@
 import React, {Component} from 'react';
-import {getCommonApi, CODE_OK} from "src/utils";
+import {connect} from 'react-redux';
+import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
+import UserCard from 'components/UserCard/';
 
 class Genius extends Component {
-  constructor(props) {
-    super(props);
-    this.state ={
-      geniusList: []
-    };
-  }
-
   render() {
-    return (
-      <div>
-        <h2>genius page</h2>
-      </div>
-    )
+    return <UserCard userList={this.props.userList}/>;
   }
-
+  
   componentDidMount () {
-    getCommonApi('/user/list', {type: 'boss'}).then(response => {
-      if (response.code === CODE_OK) {
-        this.setState({
-          geniusList: response.data
-        })
-      }
-    })
+    let param = {};
+    param.type = 'boss';
+    this.props.propsGetUserList(param);
   }
 }
 
-export default Genius;
+const mapStateToProps = state => ({
+  userList: state.chat.userList,
+});
+
+const mapDispatchToProps = dispatch => ({
+  propsGetUserList (param) {
+    dispatch(ChatCreateActions.getUserListProps(param));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Genius);

@@ -18,7 +18,9 @@ class UserCard extends Component {
           userList.map(k => (
             k.avatar ? (
               <Card key={k._id}>
-                <Header title={k.userName} thumb={require(`static/avatar/${k.avatar}.png`)}
+                <Header title={k.userName}
+                        thumb={require(`static/avatar/${k.avatar}.png`)}
+                        thumbStyle={{width: 36, height: 36}}
                         extra={<span>{k.title}</span>}/>
                 <Body>
                 {k.type === 'boss' ? <div>公司: {k.company}</div> : null}
