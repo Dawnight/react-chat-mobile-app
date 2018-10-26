@@ -18,7 +18,7 @@ class Genius extends Component {
   }
 
   componentDidMount () {
-    getCommonApi('/user/list', {type: 'genius'}).then(response => {
+    getCommonApi('/user/list', {type: 'boss'}).then(response => {
       if (response.code === CODE_OK) {
         this.setState({
           geniusList: response.data

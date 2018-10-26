@@ -1,7 +1,7 @@
 import * as UserActionTypes from './UserActionTypes';
 import {postCommonApi, CODE_OK} from "src/utils";
 
-const errorMsg = msg => ({
+export const errorMsg = msg => ({
   type: UserActionTypes.ERROR_MSG,
   msg,
 });
