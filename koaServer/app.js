@@ -43,7 +43,7 @@ const sessionConfig = {
   key: 'koa:sess', //默认
   maxAge: 86400000,//[需要设置]
   overwrite: true,//覆盖，无效
-  httpOnly: true,
+  httpOnly: false,
   signed: true,//签名，默认true
   rolling: false,  //每次请求强制设置session
   renew: true,//快过期的时候的请求设置session[需要设置]

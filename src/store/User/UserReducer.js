@@ -59,6 +59,8 @@ export default (state = defaultState, action) => {
         ...data,
         redirectTo: getRedirectPath(action.data),
       };
+    case UserActionTypes.LOGOUT:
+      return {defaultState, redirectTo: '/login'};
     default:
       return state;
   }

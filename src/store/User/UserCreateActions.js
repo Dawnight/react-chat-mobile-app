@@ -25,6 +25,9 @@ const updateSuccess= data => {
   }
 };
 
+const logoutSubmit = () => ({
+  type: UserActionTypes.LOGOUT
+});
 
 export const register = userInfo => {
   const {userName, password, rePassword, type} = userInfo;
@@ -85,6 +88,19 @@ export const updateInfo = data => {
     postCommonApi('/user/update', data).then(response => {
       if (response.code === CODE_OK) {
         dispatch(updateSuccess(response.data));
+      } else {
+        dispatch(errorMsg(response.msg));
+      }
+    })
+  }
+};
+
+// logoutSubmitProps
+export const logoutSubmitProps = () => {
+  return dispatch => {
+    postCommonApi('/user/logout').then(response => {
+      if (response.code === CODE_OK) {
+        dispatch(logoutSubmit(response.data));
       } else {
         dispatch(errorMsg(response.msg));
       }

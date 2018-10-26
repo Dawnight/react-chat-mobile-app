@@ -174,3 +174,31 @@ exports.postUpdateUserInfo = async (ctx, next) => {
     }
   }
 };
+
+exports.postUserLogout = async (ctx, next) => {
+  const userID = ctx.cookies.get('userID');
+  console.log('userID: ', userID);
+  if (userID) {
+    try {
+      let data = await User.findOne({_id: userID}, __filter);
+      if (data) {
+        ctx.cookies.set('userID', '', {signed: false, maxAge: 0});
+        console.log(ctx.cookies);
+        ctx.body = {
+          code: CODE_OK,
+          msg: 'clear cookie normal'
+        };
+      }
+    } catch (e) {
+      ctx.body = {
+        code: CODE_ERROR,
+        msg: 'catch error'
+      };
+    }
+  } else {
+    ctx.body = {
+      code: CODE_ERROR,
+      msg: 'clear cookie with error'
+    };
+  }
+};

@@ -9,7 +9,7 @@ import MSG from 'container/MSG/';
 import PersonCenter from 'container/PersonCenter/';
 
 class Dashboard extends Component {
-
+  
   render() {
     const {type} = this.props;
     const {pathname} = this.props.location;
@@ -47,9 +47,16 @@ class Dashboard extends Component {
     ];
     return (
       <div>
-        <NavBar className="fixed-header" mode="dark">{navList.find(k=> k.path === pathname).title || ''}</NavBar>
+        <NavBar className="fixed-header" mode="dark">
+          {/*{navList.find(k => k.path === pathname).title || '/login'}*/}
+          {
+            navList.find(k => {
+              return (k.path === pathname).title;
+            })
+          }
+        </NavBar>
         <div style={{marginTop: 45}}>
-          {navList.map(k=>(
+          {navList.map(k => (
             <Route key={k.path} path={k.path} component={k.component}/>
           ))}
         </div>
