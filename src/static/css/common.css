@@ -1,20 +1,30 @@
 .error-msg {
-	color: orangered;
-	font-size: 12px;
+    color: orangered;
+    font-size: 12px;
 }
 
+/***
 .am-tab-bar {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    z-index: 200;
 }
+***/
 
 .fixed-header.am-navbar {
-	position: fixed;
-	top: 0;
-	width: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 .page-content {
-	padding: 45px 5px;
+    padding: 45px 5px;
+}
+
+.tab-bar-wrap {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }

@@ -10,13 +10,13 @@ class NavLinkBar extends Component {
   };
   
   render() {
-    const navList = this.props.navList.filter(v=>!v.hide);
+    const navList = this.props.navList.filter(v => !v.hide);
     const {pathname} = this.props.location;
     return (
-      <div>
+      <div className="tab-bar-wrap">
         <TabBar>
           {
-            navList.map(v=>{
+            navList.map(v => {
               console.log(v);
               return (
                 <TabBar.Item
@@ -24,8 +24,8 @@ class NavLinkBar extends Component {
                   title={v.text}
                   icon={{uri: require(`static/icon/${v.icon}.png`)}}
                   selectedIcon={{uri: require(`static/icon/${v.icon}-active.png`)}}
-                  selected={pathname===v.path}
-                  onPress={()=>{
+                  selected={pathname === v.path}
+                  onPress={() => {
                     console.log('v.path: ', v.path);
                     this.props.history.push(v.path);
                   }}
