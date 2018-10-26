@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Switch, Route} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import {NavBar} from 'antd-mobile';
 import NavLinkBar from 'components/NavLinkBar/';
-import Boss from 'components/Boss/';
-import Genius from 'components/Genius/';
-import MSG from 'components/MSG/';
-import PersonCenter from 'components/PersonCenter/';
+import Boss from 'container/Boss/';
+import Genius from 'container/Genius/';
+import MSG from 'container/MSG/';
+import PersonCenter from 'container/PersonCenter/';
 
 class Dashboard extends Component {
 
   render() {
-    console.log('this.props');
-    console.log(this.props);
     const {type} = this.props;
     const {pathname} = this.props.location;
     const navList = [
@@ -67,4 +65,5 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({});
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

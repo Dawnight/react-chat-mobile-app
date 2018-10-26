@@ -10,15 +10,11 @@ class NavLinkBar extends Component {
   render() {
     const navList = this.props.navList.filter(v=>!v.hide);
     const {pathname} = this.props.location;
-    console.log('navList');
-    console.log(navList);
-    console.log('pathname: ', pathname);
     return (
       <div>
         <TabBar>
           {
             navList.map(v=>{
-              console.log(v.path, pathname);
               return (
                 <TabBar.Item
                   key={v.path}
