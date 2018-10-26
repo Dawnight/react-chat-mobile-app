@@ -4,18 +4,15 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import * as UserCreateActions from 'store/User/UserCreateActions';
 import {List, InputItem, Radio, WhiteSpace, Button} from 'antd-mobile';
+import UserForm from 'components/UserForm/';
 
 class Register extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
-      password: '',
-      rePassword: '',
       type: 'genius'
     };
-    this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
@@ -28,19 +25,8 @@ class Register extends Component {
   
   // 注册提交信息
   handleRegister() {
-    let {userName, password, rePassword, type} = this.state;
-    let param = {};
-    param.userName = userName;
-    param.password = password;
-    param.rePassword = rePassword;
-    param.type = type;
+    const param = Object.assign(this.props.state, {type: this.state.type});
     this.props.propsHandleRegister(param);
-  }
-  
-  handleChange(key, value) {
-    this.setState({
-      [key]: value,
-    })
   }
   
   handleRadioChange(type) {
@@ -63,17 +49,15 @@ class Register extends Component {
         <h2>注册</h2>
         <List>
           <p className="error-msg">{this.props.msg ? this.props.msg: null}</p>
-          <InputItem type='text' onChange={k=>this.handleChange('userName', k)}>用户名</InputItem><WhiteSpace/>
-          <InputItem type='text' onChange={k=>this.handleChange('password', k)}>密码</InputItem><WhiteSpace/>
-          <InputItem type='text' onChange={k=>this.handleChange('rePassword', k)}>确认密码</InputItem><WhiteSpace/>
+          <InputItem type='text' onChange={k=>this.props.handleChange('userName', k)}>用户名</InputItem><WhiteSpace/>
+          <InputItem type='text' onChange={k=>this.props.handleChange('password', k)}>密码</InputItem><WhiteSpace/>
+          <InputItem type='text' onChange={k=>this.props.handleChange('rePassword', k)}>确认密码</InputItem><WhiteSpace/>
           {
             userType.map(item => (
               <RadioItem key={item.id} checked={this.state.type === item.type} onChange={() => {
                 this.handleRadioChange(item.type)
               }}>{item.label}</RadioItem>
             ))
-  
-  
           }
           <Button type="primary" onClick={this.handleRegister}>注册</Button><WhiteSpace/>
           <Button type="primary" onClick={this.handleLogin}>登录</Button><WhiteSpace/>
@@ -84,8 +68,6 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  userName: state.user.userName,
-  password: state.user.password,
   type: state.user.type,
   msg: state.user.msg,
   redirectTo: state.user.redirectTo,
@@ -97,4 +79,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm(Register));
