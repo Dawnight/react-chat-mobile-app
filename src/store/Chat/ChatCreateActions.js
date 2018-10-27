@@ -7,6 +7,11 @@ const getUserList = data => ({
   data,
 });
 
+const getMessageList = data => ({
+  type: ChatActionTypes.MSG_LIST,
+  data,
+});
+
 export const getUserListProps = param => {
   return dispatch => {
     getCommonApi('/user/list', param).then(response => {
@@ -19,5 +24,13 @@ export const getUserListProps = param => {
   }
 };
 
-
+export const getMessageListProps = () => {
+  return dispatch => {
+    getCommonApi('/user/msgList').then(response => {
+      if (response.code === CODE_OK) {
+        dispatch(getMessageList(response.data));
+      }
+    })
+  }
+}
 

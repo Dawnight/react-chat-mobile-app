@@ -4,6 +4,7 @@ const json = require('koa-json');
 const bodyParser = require('koa-bodyparser');
 const session = require('koa-session');
 const IO = require('koa-socket');
+const {log} = require('./utils');
 
 let app = new Koa();
 const PORT = 9999;
@@ -17,14 +18,22 @@ const io = new IO({
 });
 
 io.attach(app);
+// console.log(io);
+app._io.on('connection', socket => {
+  log('>>>>>>>>>>>>>>> connection success >>>>>>>>>>>>>>>', 'green');
+  socket.on('sendMsg', res => {
+    socket.emit('receiveMsg', res);
+  });
+});
 
-app.io.on('connection',async (ctx, next) => {
-  console.log(`  <<<< connection ${ctx.socket.id} ${ctx.socket.request.connection.remoteAddress}`);
+
+
+io.on('error', function (err) {
+  console.log(err);
 });
 
 /** mongoose START **/
 const mongoose = require('mongoose');
-const {log} = require('./utils');
 const {MONGODB} = require('./config');
 const DB_URL = `${MONGODB.prefix}${MONGODB.host}:${MONGODB.port}/${MONGODB.databaseName}`;
 

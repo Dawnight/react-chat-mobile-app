@@ -13,9 +13,10 @@ module.exports = () => {
   router.post('/user/register', User.postUserRegister);
   router.post('/user/update', User.postUpdateUserInfo);
   router.post('/user/logout', User.postUserLogout);
+  router.get('/user/msgList', User.getMessageList);
 
   /** CHAT **/
   router.get('/chat/info', Chat.getChatInfo);
-  
+
   return router;
 };

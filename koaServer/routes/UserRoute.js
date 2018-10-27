@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const Chat = mongoose.model('Chat');
 const {CODE_OK, CODE_ERROR} = require('../config');
 const {MD5PASSWORD} = require('../utils');
 
@@ -37,7 +38,7 @@ exports.getUserInfo = async (ctx, next) => {
       };
     }
   }
-  
+
 };
 
 /** /user/list 查看所有用户type列表 **/
@@ -72,7 +73,7 @@ exports.postUserRegister = async (ctx, next) => {
       userName,
       type,
       password: MD5PASSWORD(password)
-      
+
     });
     try {
       let data = await user.save();
@@ -146,7 +147,7 @@ exports.postUpdateUserInfo = async (ctx, next) => {
     };
   }
   const data = ctx.request.body;
-  
+
   try {
     let res = await User.findByIdAndUpdate(userID, data);
     ctx.body = {
@@ -168,6 +169,7 @@ exports.postUpdateUserInfo = async (ctx, next) => {
   }
 };
 
+/** 用户退出 **/
 exports.postUserLogout = async (ctx, next) => {
   const userID = ctx.cookies.get('userID');
   if (userID) {
@@ -191,5 +193,27 @@ exports.postUserLogout = async (ctx, next) => {
       code: CODE_ERROR,
       msg: 'clear cookie with error'
     };
+  }
+};
+
+/** 用户查看聊天信息 **/
+exports.getMessageList = async (ctx, next) => {
+  const userID = ctx.cookies.get('userID');
+  if (userID) {
+    try {
+      // {'$or': [{from: userID, to: userID}]}
+      let data = await Chat.find();
+      if (data) {
+        ctx.body = {
+          code: CODE_OK,
+          data,
+        };
+      }
+    } catch (e) {
+      ctx.body = {
+        code: CODE_ERROR,
+        msg: 'catch error'
+      };
+    }
   }
 };
