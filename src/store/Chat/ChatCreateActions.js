@@ -1,5 +1,5 @@
 import * as ChatActionTypes from './ChatActionTypes';
-import {getCommonApi, postCommonApi, CODE_OK} from "src/utils";
+import {getCommonApi, CODE_OK} from "src/utils";
 import {errorMsg} from "store/User/UserCreateActions";
 import io from 'socket.io-client';
 
@@ -10,10 +10,15 @@ const getUserList = data => ({
   data,
 });
 
-const getMessageList = data => ({
-  type: ChatActionTypes.MSG_LIST,
-  data,
-});
+const getMessageList = (data, userId) => {
+  console.log('data, userId');
+  console.log(data, userId);
+  return {
+    type: ChatActionTypes.MSG_LIST,
+    data,
+    userId,
+  }
+};
 
 const receiveMessage = (data) => ({
   type: ChatActionTypes.MSG_RECEIVE,
@@ -33,12 +38,13 @@ export const getUserListProps = param => {
 };
 
 export const getMessageListProps = () => {
-  return dispatch => {
+  return (dispatch, getState) => {
     getCommonApi('/user/msgList').then(response => {
       if (response.code === CODE_OK) {
         console.log('/user/msgList');
         console.log(response.data);
-        dispatch(getMessageList(response.data));
+        const userId = getState().user._id;
+        dispatch(getMessageList(response.data, userId));
       }
     })
   }
