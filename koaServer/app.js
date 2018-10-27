@@ -3,9 +3,24 @@ const logger = require('koa-logger');
 const json = require('koa-json');
 const bodyParser = require('koa-bodyparser');
 const session = require('koa-session');
+const IO = require('koa-socket');
 
 let app = new Koa();
 const PORT = 9999;
+
+// http和socket一起使用
+const io = new IO({
+  ioOptions: {
+    pingTimeout: 10000,
+    pingInterval: 5000
+  }
+});
+
+io.attach(app);
+
+app.io.on('connection',async (ctx, next) => {
+  console.log(`  <<<< connection ${ctx.socket.id} ${ctx.socket.request.connection.remoteAddress}`);
+});
 
 /** mongoose START **/
 const mongoose = require('mongoose');

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 
 class Chat extends Component {
   render() {
@@ -9,6 +10,13 @@ class Chat extends Component {
         Chat page---{this.props.match.params.user}
       </div>
     )
+  }
+
+  componentDidMount () {
+    console.log('*****************');
+    const socket = io('ws://localhost:9999');
+    console.log('--------------------');
+    console.log(socket);
   }
 }
 
