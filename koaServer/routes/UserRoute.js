@@ -202,7 +202,7 @@ exports.getMessageList = async (ctx, next) => {
   if (userID) {
     try {
       // {'$or': [{from: userID, to: userID}]}
-      let data = await Chat.find();
+      let data = await Chat.find({}, __filter);
       if (data) {
         ctx.body = {
           code: CODE_OK,

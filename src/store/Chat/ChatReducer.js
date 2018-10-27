@@ -16,14 +16,19 @@ export default (state = defaultState, action) => {
         userList: action.data,
       };
     case ChatActionTypes.MSG_LIST:
+      console.log('MSG_LIST action');
+      console.log(action);
       return {
         ...state,
         chatMsg: action.data,
-        unRead:action.data.filter(k=>!k.read).length,
+        unRead: action.data.filter(k => !k.read).length,
+      };
+    case ChatActionTypes.MSG_RECEIVE:
+      return {
+        ...state,
+        chatMsg: [...state.chatMsg, action.data.chatMsg]
       };
     case ChatActionTypes.MSG_READ:
-      return {};
-    case ChatActionTypes.MSG_RECEIVE:
       return {};
     default:
       return state;

@@ -5,35 +5,12 @@ const bodyParser = require('koa-bodyparser');
 const session = require('koa-session');
 const IO = require('koa-socket');
 const {log} = require('./utils');
+const mongoose = require('mongoose');
 
 let app = new Koa();
 const PORT = 9999;
 
-// http和socket一起使用
-const io = new IO({
-  ioOptions: {
-    pingTimeout: 10000,
-    pingInterval: 5000
-  }
-});
-
-io.attach(app);
-// console.log(io);
-app._io.on('connection', socket => {
-  log('>>>>>>>>>>>>>>> connection success >>>>>>>>>>>>>>>', 'green');
-  socket.on('sendMsg', res => {
-    socket.emit('receiveMsg', res);
-  });
-});
-
-
-
-io.on('error', function (err) {
-  console.log(err);
-});
-
 /** mongoose START **/
-const mongoose = require('mongoose');
 const {MONGODB} = require('./config');
 const DB_URL = `${MONGODB.prefix}${MONGODB.host}:${MONGODB.port}/${MONGODB.databaseName}`;
 
@@ -58,6 +35,37 @@ mongoose.connection.once('open', () => {
 require('./schemas/UserSchema');
 require('./schemas/ChatSchema');
 /** mongoose END **/
+
+const Chat = mongoose.model('Chat');
+
+// http和socket一起使用
+const io = new IO({
+  ioOptions: {
+    pingTimeout: 10000,
+    pingInterval: 5000
+  }
+});
+
+io.attach(app);
+// console.log(io);
+app._io.on('connection', async (socket) => {
+  log('>>>>>>>>>>>>>>> connection success >>>>>>>>>>>>>>>', 'green');
+  socket.on('sendMsg', async res => {
+    log('sendMsg', 'green');
+    console.log(res);
+    const {from, to, text} = res;
+    const chatId = [from, to].sort().join('_');
+    await Chat.create({chatId, from, to, content: text});
+    socket.emit('receiveMsg', {from, to, text});
+    log('receiveMsg');
+    console.log(res);
+  });
+});
+
+
+io.on('error', function (err) {
+  console.log(err);
+});
 
 /** 中间件 START **/
 app.use(logger());

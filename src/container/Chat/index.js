@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
-import io from 'socket.io-client';
 import {connect} from 'react-redux';
 import {List, InputItem} from 'antd-mobile';
 import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
-
-const socket = io('ws://localhost:9999');
-socket.on('receiveMsg', data => {
-  console.log('receiveMsg');
-  console.log(data);
-});
 
 class Chat extends Component {
 
@@ -28,9 +21,15 @@ class Chat extends Component {
   }
 
   handleSubmitInfo() {
-    console.log(this.state);
-    socket.emit('sendMsg', {text: this.state.text});
-    this.setState({text: ''});
+    const from = this.props.userName;
+    const to = this.props.match.params.user;
+    const text = this.state.text;
+    // const {sendMessageProps} = this.props;
+    let param = {};
+    param.from = from;
+    param.to = to;
+    param.text = text;
+    this.props.sendMessageProps(param);
   }
 
   render() {
@@ -50,20 +49,29 @@ class Chat extends Component {
     )
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.getMessageListProps();
+    this.props.receiveMessageProps();
   }
 
 }
 
 const mapStateToProps = state => ({
+  _id: state.user._id,
+  userName: state.user.userName,
   chatMsg: state.chat.chatMsg,
   unRead: state.chat.unRead,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getMessageListProps () {
+  getMessageListProps() {
     dispatch(ChatCreateActions.getMessageListProps());
+  },
+  sendMessageProps(param) {
+    dispatch(ChatCreateActions.sendMessageProps(param));
+  },
+  receiveMessageProps() {
+    dispatch(ChatCreateActions.receiveMessageProps());
   }
 });
 
