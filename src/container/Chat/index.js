@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {List, InputItem, NavBar} from 'antd-mobile';
 import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
-import io from 'socket.io-client';
-const socket = io('ws://localhost:9999');
 
 class Chat extends Component {
 
@@ -82,15 +80,6 @@ class Chat extends Component {
   componentDidMount() {
     this.props.getMessageListProps();
     this.props.receiveMessageProps();
-    // socket.on('receiveMsg', data => {
-    //   console.log('chat page receiveMsg');
-    //   console.log(data);
-    //   this.setState({
-    //     msg: [...this.state.msg, data.content]
-    //   });
-    //   console.log('this.state.msg');
-    //   console.log(this.state.msg);
-    // });
   }
 
 }

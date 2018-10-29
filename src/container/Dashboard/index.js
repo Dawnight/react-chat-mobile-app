@@ -7,6 +7,7 @@ import Boss from 'container/Boss/';
 import Genius from 'container/Genius/';
 import MSG from 'container/MSG/';
 import PersonCenter from 'container/PersonCenter/';
+import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
 
 class Dashboard extends Component {
   
@@ -64,13 +65,27 @@ class Dashboard extends Component {
       </div>
     )
   }
+
+  componentDidMount () {
+    this.props.getMessageListProps();
+    this.props.receiveMessageProps();
+  }
+
 }
 
 const mapStateToProps = state => ({
   userName: state.user.userName,
   type: state.user.type,
+  unRead: state.chat.unRead,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  getMessageListProps() {
+    dispatch(ChatCreateActions.getMessageListProps());
+  },
+  receiveMessageProps() {
+    dispatch(ChatCreateActions.receiveMessageProps());
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
