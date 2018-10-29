@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {List, InputItem} from 'antd-mobile';
 import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
+import io from 'socket.io-client';
+const socket = io('ws://localhost:9999');
 
 class Chat extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      content: '',
+      msg: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitInfo = this.handleSubmitInfo.bind(this);
@@ -21,26 +24,32 @@ class Chat extends Component {
   }
 
   handleSubmitInfo() {
-    const from = this.props.userName;
+    const from = this.props._id;
     const to = this.props.match.params.user;
-    const text = this.state.text;
+    const content = this.state.content;
     // const {sendMessageProps} = this.props;
     let param = {};
     param.from = from;
     param.to = to;
-    param.text = text;
+    param.content = content;
     this.props.sendMessageProps(param);
+    this.setState({content: ''});
   }
 
   render() {
     return (
       <div>
+        <div>
+          {this.state.msg.map((k, index) => {
+            return <p key={index}>{k}</p>
+          })}
+        </div>
         <div className="stick-footer">
           <List>
             <InputItem
               placeholder="请输入"
-              value={this.state.text}
-              onChange={k => this.handleChange('text', k)}
+              value={this.state.content}
+              onChange={k => this.handleChange('content', k)}
               extra={<span onClick={() => this.handleSubmitInfo()}>发送</span>}
             />
           </List>
@@ -52,6 +61,15 @@ class Chat extends Component {
   componentDidMount() {
     this.props.getMessageListProps();
     this.props.receiveMessageProps();
+    socket.on('receiveMsg', data => {
+      console.log('chat page receiveMsg');
+      console.log(data);
+      this.setState({
+        msg: [...this.state.msg, data.content]
+      });
+      console.log('this.state.msg');
+      console.log(this.state.msg);
+    });
   }
 
 }
