@@ -55,8 +55,8 @@ app._io.on('connection', async (socket) => {
     console.log(res);
     const {from, to, content} = res;
     const chatId = [from, to].sort().join('_');
-    await Chat.create({chatId, from, to, content});
-    app._io.emit('receiveMsg', {from, to, content});
+    let chat = await Chat.create({chatId, from, to, content});
+    app._io.emit('receiveMsg', Object.assign({}, chat._doc));
     log('receiveMsg');
     console.log(res);
   });

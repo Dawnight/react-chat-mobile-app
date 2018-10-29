@@ -20,7 +20,7 @@ const getMessageList = (data, userId) => {
   }
 };
 
-const receiveMessage = (data) => ({
+const receiveMessage = data => ({
   type: ChatActionTypes.MSG_RECEIVE,
   data,
 });

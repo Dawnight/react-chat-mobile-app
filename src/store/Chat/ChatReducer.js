@@ -21,7 +21,7 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         chatMsg: action.data,
-        unRead: action.data.filter(k => !k.read).length + 1,
+        unRead: action.data.filter(k => !k.read).length,
       };
     case ChatActionTypes.MSG_RECEIVE:
       console.log('MSG_RECEIVE action');
@@ -31,6 +31,7 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         chatMsg: [...state.chatMsg, action.data],
+        unRead: state.unRead + 1,
       };
     case ChatActionTypes.MSG_READ:
       return {};

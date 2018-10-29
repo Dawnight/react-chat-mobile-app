@@ -27,21 +27,22 @@ class Chat extends Component {
     const from = this.props._id;
     const to = this.props.match.params.user;
     const content = this.state.content;
-    // const {sendMessageProps} = this.props;
+    const {sendMessageProps} = this.props;
     let param = {};
     param.from = from;
     param.to = to;
     param.content = content;
-    this.props.sendMessageProps(param);
+    sendMessageProps(param);
     this.setState({content: ''});
   }
 
   render() {
+    const {chatMsg} = this.props;
     return (
       <div>
         <div>
-          {this.state.msg.map((k, index) => {
-            return <p key={index}>{k}</p>
+          {chatMsg.map(k => {
+            return <p key={k._id}>{k.content}</p>
           })}
         </div>
         <div className="stick-footer">
@@ -61,15 +62,15 @@ class Chat extends Component {
   componentDidMount() {
     this.props.getMessageListProps();
     this.props.receiveMessageProps();
-    socket.on('receiveMsg', data => {
-      console.log('chat page receiveMsg');
-      console.log(data);
-      this.setState({
-        msg: [...this.state.msg, data.content]
-      });
-      console.log('this.state.msg');
-      console.log(this.state.msg);
-    });
+    // socket.on('receiveMsg', data => {
+    //   console.log('chat page receiveMsg');
+    //   console.log(data);
+    //   this.setState({
+    //     msg: [...this.state.msg, data.content]
+    //   });
+    //   console.log('this.state.msg');
+    //   console.log(this.state.msg);
+    // });
   }
 
 }
