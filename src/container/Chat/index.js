@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {List, InputItem} from 'antd-mobile';
+import {List, InputItem, NavBar} from 'antd-mobile';
 import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
 import io from 'socket.io-client';
 const socket = io('ws://localhost:9999');
@@ -37,14 +37,34 @@ class Chat extends Component {
   }
 
   render() {
+    const Item = List.Item;
     const {chatMsg} = this.props;
+    console.log('this.props');
+    console.log(this.props);
+    const user = this.props.match.params.user;
     return (
-      <div>
-        <div>
-          {chatMsg.map(k => {
-            return <p key={k._id}>{k.content}</p>
-          })}
-        </div>
+      <div id="chat-page">
+        <NavBar mode="dark">
+          {this.props.match.params.user}
+        </NavBar>
+        {
+          chatMsg.map(k => {
+            return k.from === user ? (
+              <List key={k._id}>
+                <Item
+
+                >{k.content}</Item>
+              </List>
+            ) : (
+              <List key={k._id}>
+              <Item
+                className="chat-me"
+                extra=""
+              >{k.content}</Item>
+            </List>
+            )
+          })
+        }
         <div className="stick-footer">
           <List>
             <InputItem
