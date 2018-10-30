@@ -53,7 +53,6 @@ class Chat extends Component {
         {
           chatMsg.map(k => {
             const avatar = require(`../../static/avatar/${users[k.from].avatar}.png`);
-            const selfAvatar = avatar.split('.')[0] + '.' + avatar.split('.')[2];
             return k.from === userID ? (
               <List key={k._id}>
                 <Item
@@ -64,7 +63,7 @@ class Chat extends Component {
               <List key={k._id}>
               <Item
                 className="chat-me"
-                extra={<img src={selfAvatar} alt=''/>}
+                extra={<img src={avatar} alt=''/>}
               >{k.content}</Item>
             </List>
             )
