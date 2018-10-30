@@ -9,25 +9,29 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case ChatActionTypes.USER_LIST:
-      console.log('USER_LIST');
+      console.group('%cUSER_LIST', 'color: red;');
       console.log(action);
+      console.groupEnd();
       return {
         ...state,
         userList: action.data,
       };
     case ChatActionTypes.MSG_LIST:
-      console.log('MSG_LIST action');
+      console.group('%cMSG_LIST action', 'color: red;');
       console.log(action);
+      console.groupEnd();
       return {
         ...state,
         chatMsg: action.data,
         unRead: action.data.filter(k => !k.read).length,
       };
     case ChatActionTypes.MSG_RECEIVE:
-      console.log('MSG_RECEIVE action');
+      console.group('%cMSG_RECEIVE action', 'color: red;');
       console.log(action);
-      console.log('MSG_RECEIVE state');
+      console.groupEnd();
+      console.group('%cMSG_RECEIVE state', 'color: red;');
       console.log(state);
+      console.groupEnd();
       return {
         ...state,
         chatMsg: [...state.chatMsg, action.data],

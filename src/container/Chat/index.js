@@ -37,8 +37,6 @@ class Chat extends Component {
   render() {
     const Item = List.Item;
     const {chatMsg} = this.props;
-    console.log('this.props');
-    console.log(this.props);
     const user = this.props.match.params.user;
     return (
       <div id="chat-page">
@@ -49,9 +47,7 @@ class Chat extends Component {
           chatMsg.map(k => {
             return k.from === user ? (
               <List key={k._id}>
-                <Item
-
-                >{k.content}</Item>
+                <Item>{k.content}</Item>
               </List>
             ) : (
               <List key={k._id}>

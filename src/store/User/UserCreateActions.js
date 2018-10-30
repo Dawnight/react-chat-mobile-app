@@ -17,8 +17,9 @@ const loginSuccess = data => ({
 });
 
 const updateSuccess= data => {
-  console.log('updateSuccess data');
+  console.group('updateSuccess data');
   console.log(data);
+  console.groupEnd();
   return {
     type: UserActionTypes.UPDATE_SUCCESS,
     data,
@@ -64,8 +65,6 @@ export const login = userInfo => {
   let param = {};
   param.userName = userName;
   param.password = password;
-  console.log('reducer login userinfo');
-  console.log(userInfo);
   return dispatch => {
     postCommonApi('/user/login', param).then(response => {
       if (response.code === CODE_OK) {

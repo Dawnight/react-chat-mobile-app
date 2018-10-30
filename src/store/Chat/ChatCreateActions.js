@@ -11,8 +11,6 @@ const getUserList = data => ({
 });
 
 const getMessageList = (data, userId) => {
-  console.log('data, userId');
-  console.log(data, userId);
   return {
     type: ChatActionTypes.MSG_LIST,
     data,
@@ -41,8 +39,6 @@ export const getMessageListProps = () => {
   return (dispatch, getState) => {
     getCommonApi('/user/msgList').then(response => {
       if (response.code === CODE_OK) {
-        console.log('/user/msgList');
-        console.log(response.data);
         const userId = getState().user._id;
         dispatch(getMessageList(response.data, userId));
       }
@@ -51,8 +47,9 @@ export const getMessageListProps = () => {
 };
 
 export const sendMessageProps = param => {
-  console.log('sendMessageProps');
+  console.group('%csendMessageProps', 'color: green;');
   console.log(param);
+  console.groupEnd();
   return dispatch => {
     socket.emit('sendMsg', param);
   }
@@ -61,8 +58,9 @@ export const sendMessageProps = param => {
 export const receiveMessageProps = () => {
   return dispatch => {
     socket.on('receiveMsg', data => {
-      console.log('receiveMessageProps');
+      console.group('%creceiveMessageProps', 'color: green;');
       console.log(data);
+      console.groupEnd();
       dispatch(receiveMessage(data));
     })
   }
