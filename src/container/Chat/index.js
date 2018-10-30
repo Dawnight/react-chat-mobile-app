@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {List, InputItem, NavBar} from 'antd-mobile';
+import {List, InputItem, NavBar, Icon} from 'antd-mobile';
 import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
 
 class Chat extends Component {
@@ -36,24 +36,35 @@ class Chat extends Component {
 
   render() {
     const Item = List.Item;
-    const {chatMsg} = this.props;
-    const user = this.props.match.params.user;
+    const {chatMsg, users} = this.props;
+    const userID = this.props.match.params.user;
+    if (!users[userID]) {
+      return null;
+    }
     return (
       <div id="chat-page">
-        <NavBar mode="dark">
-          {this.props.match.params.user}
+        <NavBar
+          mode="dark"
+          onLeftClick={()=>{this.props.history.goBack()}}
+          icon={<Icon type="left"/>}
+        >
+          {users[userID]['userName']}
         </NavBar>
         {
           chatMsg.map(k => {
-            return k.from === user ? (
+            const avatar = require(`../../static/avatar/${users[k.from].avatar}.png`);
+            const selfAvatar = avatar.split('.')[0] + '.' + avatar.split('.')[2];
+            return k.from === userID ? (
               <List key={k._id}>
-                <Item>{k.content}</Item>
+                <Item
+                  thumb={avatar}
+                >{k.content}</Item>
               </List>
             ) : (
               <List key={k._id}>
               <Item
                 className="chat-me"
-                extra=""
+                extra={<img src={selfAvatar} alt=''/>}
               >{k.content}</Item>
             </List>
             )
@@ -74,10 +85,11 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.props.getMessageListProps();
-    this.props.receiveMessageProps();
+    if (this.props.chatMsg.length === 0) {
+      this.props.getMessageListProps();
+      this.props.receiveMessageProps();
+    }
   }
-
 }
 
 const mapStateToProps = state => ({
@@ -85,6 +97,7 @@ const mapStateToProps = state => ({
   userName: state.user.userName,
   chatMsg: state.chat.chatMsg,
   unRead: state.chat.unRead,
+  users: state.chat.users,
 });
 
 const mapDispatchToProps = dispatch => ({

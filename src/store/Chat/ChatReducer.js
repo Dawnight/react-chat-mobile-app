@@ -4,6 +4,7 @@ const defaultState = {
   userList: [],
   chatMsg: [],
   unRead: 0,
+  users: {},
 };
 
 export default (state = defaultState, action) => {
@@ -24,6 +25,7 @@ export default (state = defaultState, action) => {
         ...state,
         chatMsg: action.data,
         unRead: action.data.filter(k => !k.read).length,
+        users: action.users
       };
     case ChatActionTypes.MSG_RECEIVE:
       console.group('%cMSG_RECEIVE action', 'color: red;');

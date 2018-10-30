@@ -10,11 +10,12 @@ const getUserList = data => ({
   data,
 });
 
-const getMessageList = (data, userId) => {
+const getMessageList = (data, userId, users) => {
   return {
     type: ChatActionTypes.MSG_LIST,
     data,
     userId,
+    users,
   }
 };
 
@@ -40,7 +41,7 @@ export const getMessageListProps = () => {
     getCommonApi('/user/msgList').then(response => {
       if (response.code === CODE_OK) {
         const userId = getState().user._id;
-        dispatch(getMessageList(response.data, userId));
+        dispatch(getMessageList(response.data, userId, response.users));
       }
     })
   }

@@ -201,12 +201,18 @@ exports.getMessageList = async (ctx, next) => {
   const userID = ctx.cookies.get('userID');
   if (userID) {
     try {
-      // {'$or': [{from: userID, to: userID}]}
-      let data = await Chat.find({}, __filter);
+      let user = await User.find({}, __filter);
+      let users = {};
+      user.forEach(item => {
+        users[item._id] = {userName: item.userName, avatar: item.avatar}
+      });
+
+      let data = await Chat.find({$or: [{from:userID},{to: userID}]}, __filter);
       if (data) {
         ctx.body = {
           code: CODE_OK,
           data,
+          users,
         };
       }
     } catch (e) {
