@@ -24,7 +24,7 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         chatMsg: action.data,
-        unRead: action.data.filter(k => !k.read).length,
+        unRead: action.data.filter(k => !k.read && k.to===action.userId).length,
         users: action.users
       };
     case ChatActionTypes.MSG_RECEIVE:
@@ -34,10 +34,11 @@ export default (state = defaultState, action) => {
       console.group('%cMSG_RECEIVE state', 'color: red;');
       console.log(state);
       console.groupEnd();
+      const n = action.to === action.userId ? 1: 0;
       return {
         ...state,
         chatMsg: [...state.chatMsg, action.data],
-        unRead: state.unRead + 1,
+        unRead: state.unRead + 1 + n,
       };
     case ChatActionTypes.MSG_READ:
       return {};

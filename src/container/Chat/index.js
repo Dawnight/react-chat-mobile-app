@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {List, InputItem, NavBar, Icon} from 'antd-mobile';
+import {List, InputItem, NavBar, Icon, Grid} from 'antd-mobile';
 import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
+import {getChatId} from "src/utils";
 
 class Chat extends Component {
 
@@ -13,6 +14,7 @@ class Chat extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitInfo = this.handleSubmitInfo.bind(this);
+    this.fixAntdCarouselBug = this.fixAntdCarouselBug.bind(this);
   }
 
   handleChange(key, value) {
@@ -31,13 +33,27 @@ class Chat extends Component {
     param.to = to;
     param.content = content;
     sendMessageProps(param);
-    this.setState({content: ''});
+    this.setState({
+      content: '',
+      showEmoji: false
+    });
+  }
+
+  fixAntdCarouselBug () {
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 0);
   }
 
   render() {
+    /** emoji START **/
+    const emoji = '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁 😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐 😷 🤒 🤕 😈 👿 👹 👺 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 👍 👎 👊 ✊ 🤘 👌 👈 👉 👆 👇 ✋  🖐 🖖 👋  💪 🖕 ✍️  💅 🖖 💄 💋 👄 👅 👂 👃 👁 👀 '.split(' ').filter(k => k).map(v => ({text: v}));
+    /** emoji END **/
     const Item = List.Item;
-    const {chatMsg, users} = this.props;
+    let {chatMsg, users} = this.props;
     const userID = this.props.match.params.user;
+    const chatId = getChatId(userID, this.props._id);
+    chatMsg = chatMsg.filter(k => k.chatId === chatId);
     if (!users[userID]) {
       return null;
     }
@@ -45,7 +61,9 @@ class Chat extends Component {
       <div id="chat-page">
         <NavBar
           mode="dark"
-          onLeftClick={()=>{this.props.history.goBack()}}
+          onLeftClick={() => {
+            this.props.history.goBack()
+          }}
           icon={<Icon type="left"/>}
         >
           {users[userID]['userName']}
@@ -61,11 +79,11 @@ class Chat extends Component {
               </List>
             ) : (
               <List key={k._id}>
-              <Item
-                className="chat-me"
-                extra={<img src={avatar} alt=''/>}
-              >{k.content}</Item>
-            </List>
+                <Item
+                  className="chat-me"
+                  extra={<img src={avatar} alt=''/>}
+                >{k.content}</Item>
+              </List>
             )
           })
         }
@@ -75,9 +93,28 @@ class Chat extends Component {
               placeholder="请输入"
               value={this.state.content}
               onChange={k => this.handleChange('content', k)}
-              extra={<span onClick={() => this.handleSubmitInfo()}>发送</span>}
+              extra={
+                <div>
+                  <span style={{marginRight: 15}} onClick={() => {
+                    this.setState({
+                      showEmoji: !this.state.showEmoji
+                    });
+                    this.fixAntdCarouselBug();
+                  }}>😀</span>
+                  <span onClick={() => this.handleSubmitInfo()}>发送</span>
+                </div>
+              }
             />
           </List>
+          {
+            this.state.showEmoji ? <Grid
+              data={emoji}
+              columnNum={9}
+              carouselMaxRow={4}
+              isCarousel={true}
+              onClick={(el)=>{this.setState({content: this.state.content + el.text})}}
+            /> : null
+          }
         </div>
       </div>
     )
@@ -88,6 +125,7 @@ class Chat extends Component {
       this.props.getMessageListProps();
       this.props.receiveMessageProps();
     }
+    this.fixAntdCarouselBug();
   }
 }
 

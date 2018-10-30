@@ -19,9 +19,10 @@ const getMessageList = (data, userId, users) => {
   }
 };
 
-const receiveMessage = data => ({
+const receiveMessage = (data, userId) => ({
   type: ChatActionTypes.MSG_RECEIVE,
   data,
+  userId,
 });
 
 export const getUserListProps = param => {
@@ -57,12 +58,13 @@ export const sendMessageProps = param => {
 };
 
 export const receiveMessageProps = () => {
-  return dispatch => {
+  return (dispatch, getState) => {
     socket.on('receiveMsg', data => {
       console.group('%creceiveMessageProps', 'color: green;');
       console.log(data);
       console.groupEnd();
-      dispatch(receiveMessage(data));
+      const userId = getState().user._id;
+      dispatch(receiveMessage(data, userId));
     })
   }
 };

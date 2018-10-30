@@ -10,7 +10,7 @@ import PersonCenter from 'container/PersonCenter/';
 import * as ChatCreateActions from 'store/Chat/ChatCreateActions';
 
 class Dashboard extends Component {
-  
+
   render() {
     const {type} = this.props;
     const {pathname} = this.props.location;
@@ -66,9 +66,12 @@ class Dashboard extends Component {
     )
   }
 
-  componentDidMount () {
-    this.props.getMessageListProps();
-    this.props.receiveMessageProps();
+  componentDidMount() {
+    const {chatMsg} = this.props;
+    if (!chatMsg.length) {
+      this.props.getMessageListProps();
+      this.props.receiveMessageProps();
+    }
   }
 
 }
@@ -77,6 +80,7 @@ const mapStateToProps = state => ({
   userName: state.user.userName,
   type: state.user.type,
   unRead: state.chat.unRead,
+  chatMsg: state.chat.chatMsg,
 });
 
 const mapDispatchToProps = dispatch => ({
