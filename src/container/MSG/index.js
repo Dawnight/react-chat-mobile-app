@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {List} from 'antd-mobile';
+import {List, Badge} from 'antd-mobile';
 
 class MSG extends Component {
 
@@ -37,9 +37,11 @@ class MSG extends Component {
               console.log(targetId);
               const userName = users[targetId] ? users[targetId]['userName'] : '';
               const avatar = users[targetId] ? users[targetId]['avatar'] : '';
+              const unRead = k.filter(k => !k.read && k.to===_id).length;
               return (
                 <List key={lastItem._id}>
                   <Item
+                    extra={<Badge text={unRead}></Badge>}
                     thumb={require(`../../static/avatar/${avatar}.png`)}
                   >
                     {lastItem.content}
