@@ -23,6 +23,13 @@ class MSG extends Component {
     const chatList = Object.values(msgGroup);
     console.log('chatList');
     console.log(chatList);
+    chatList.sort((a, b) => {
+      const a_last = this.getLast(a);
+      const b_last = this.getLast(b);
+      const a_updatedAt = new Date(a_last.meta.updatedAt).getTime();
+      const b_updatedAt = new Date(b_last.meta.updatedAt).getTime();
+      return b_updatedAt - a_updatedAt;
+    });
     return (
       <div>
           {
@@ -43,6 +50,8 @@ class MSG extends Component {
                   <Item
                     extra={<Badge text={unRead}></Badge>}
                     thumb={require(`../../static/avatar/${avatar}.png`)}
+                    arrow="horizontal"
+                    onClick={()=>{this.props.history.push(`/chat/${targetId}`)}}
                   >
                     {lastItem.content}
                     <Brief>{userName}</Brief>
