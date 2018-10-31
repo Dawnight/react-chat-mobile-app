@@ -207,7 +207,7 @@ exports.getMessageList = async (ctx, next) => {
         users[item._id] = {userName: item.userName, avatar: item.avatar}
       });
 
-      let data = await Chat.find({$or: [{from:userID},{to: userID}]}, __filter);
+      let data = await Chat.find({$or: [{from: userID}, {to: userID}]}, __filter);
       if (data) {
         ctx.body = {
           code: CODE_OK,
@@ -222,4 +222,24 @@ exports.getMessageList = async (ctx, next) => {
       };
     }
   }
+};
+
+exports.postReadMessage = async (ctx, next) => {
+  const userID = ctx.cookies.get('userID');
+  const {from} = ctx.request.body;
+  console.log(userID);
+  console.log(from);
+  try {
+    let data = await Chat.update({from, to: userID}, {'$set': {read: true}}, {multi: true});
+    console.log(data);
+    ctx.body = {
+      code: 0,
+      data,
+    }
+  } catch (e) {
+    ctx.body = {
+      code: 1,
+    }
+  }
+
 };

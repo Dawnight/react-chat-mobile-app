@@ -4,7 +4,7 @@ const Chat = require('./routes/ChatRoute');
 
 module.exports = () => {
   const router = new Router({});
-  
+
   /** USER **/
   router.get('/user/test', User.getUserTest);
   router.get('/user/info', User.getUserInfo);
@@ -14,6 +14,7 @@ module.exports = () => {
   router.post('/user/update', User.postUpdateUserInfo);
   router.post('/user/logout', User.postUserLogout);
   router.get('/user/msgList', User.getMessageList);
+  router.post('/user/readMsg', User.postReadMessage);
 
   /** CHAT **/
   router.get('/chat/info', Chat.getChatInfo);

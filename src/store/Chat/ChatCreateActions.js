@@ -2,6 +2,7 @@ import * as ChatActionTypes from './ChatActionTypes';
 import {getCommonApi, CODE_OK} from "src/utils";
 import {errorMsg} from "store/User/UserCreateActions";
 import io from 'socket.io-client';
+import {postCommonApi} from "../../utils";
 
 const socket = io('ws://localhost:9999');
 
@@ -65,6 +66,27 @@ export const receiveMessageProps = () => {
       console.groupEnd();
       const userId = getState().user._id;
       dispatch(receiveMessage(data, userId));
+    })
+  }
+};
+
+const readMessage = (from, userId, num) => {
+  return {
+    type: ChatActionTypes.MSG_READ,
+    data: {from, userId, num},
+  }
+};
+
+export const readMessageProps = from => {
+  let param = {};
+  param.from = from;
+  return (dispatch, getState) => {
+    postCommonApi('/user/readMsg', param).then(response => {
+      if (response.code === CODE_OK) {
+        const userId = getState().user._id;
+        const num = response.data.num;
+        dispatch(readMessage(from, userId, num));
+      }
     })
   }
 };

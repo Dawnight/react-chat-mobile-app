@@ -39,7 +39,7 @@ class Chat extends Component {
     });
   }
 
-  fixAntdCarouselBug () {
+  fixAntdCarouselBug() {
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 0);
@@ -112,12 +112,20 @@ class Chat extends Component {
               columnNum={9}
               carouselMaxRow={4}
               isCarousel={true}
-              onClick={(el)=>{this.setState({content: this.state.content + el.text})}}
+              onClick={(el) => {
+                this.setState({content: this.state.content + el.text})
+              }}
             /> : null
           }
         </div>
       </div>
     )
+  }
+
+  componentWillUnmount() {
+    const to = this.props.match.params.user;
+    console.log(`%cto: ${to}`, 'color: blue');
+    // this.props.readMessageProps(to);
   }
 
   componentDidMount() {
@@ -126,6 +134,9 @@ class Chat extends Component {
       this.props.receiveMessageProps();
     }
     this.fixAntdCarouselBug();
+    const to = this.props.match.params.user;
+    console.log(`%cto: ${to}`, 'color: blue');
+    // this.props.readMessageProps(to);
   }
 }
 
@@ -146,6 +157,9 @@ const mapDispatchToProps = dispatch => ({
   },
   receiveMessageProps() {
     dispatch(ChatCreateActions.receiveMessageProps());
+  },
+  readMessageProps(param) {
+    dispatch(ChatCreateActions.readMessageProps(param));
   }
 });
 
