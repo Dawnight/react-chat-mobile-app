@@ -12,48 +12,6 @@ const mapDispatchToProps = dispatch => ({});
   }
 };
  **/
-export const connect = (mapStateToProps, mapDispatchToProps) => (wrapComponent) => {
-  return class ConnectComponent extends Component {
-    static contextType = {
-      store: PropTypes.object
-    };
-
-    constructor(props, context) {
-      super(props, context);
-      this.state = {
-        props: {}
-      };
-    }
-
-    componentDidMount() {
-      const {store} = this.context;
-      store.subscribe(() => this.update());
-      this.update();
-    }
-
-    update() {
-      // 获取 mapStateToProps  mapDispatchToProps
-      const {store} = this.context;
-      const stateProps = mapStateToProps(store.getState());
-      // 方法不能直接给，需要dispatch
-
-      const dispatchProps = bindActionCreators(mapDispatchToProps, store.dispatch);
-      this.setState({
-        props: {
-          ...this.state.props,
-          ...stateProps,
-          ...dispatchProps,
-        }
-      })
-
-    }
-
-    render() {
-      return <wrapComponent {...this.state.props}/>;
-    }
-
-  }
-};
 
 
 export class Provider extends Component {
