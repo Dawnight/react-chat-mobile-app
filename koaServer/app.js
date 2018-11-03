@@ -1,8 +1,11 @@
+const path = require('path');
+const fs = require('fs');
 const Koa = require('koa');
 const logger = require('koa-logger');
 const json = require('koa-json');
 const bodyParser = require('koa-bodyparser');
 const session = require('koa-session');
+const koaStatic = require('koa-static');
 const IO = require('koa-socket');
 const {log} = require('./utils');
 const mongoose = require('mongoose');
@@ -82,6 +85,16 @@ const sessionConfig = {
 };
 app.keys = ['hello, koa2'];
 app.use(session(sessionConfig, app));
+app.use((ctx, next) => {
+  if (ctx.url.startsWith('/user') || ctx.url.startsWith('/static')) {
+    return next();
+  } else {
+    console.log(path.resolve('build/index.html'));
+    ctx.type = 'html';
+    ctx.body = fs.createReadStream(path.resolve('build/index.html'));
+  }
+});
+app.use(koaStatic(path.resolve('build')));
 /** 中间件 END **/
 
 /** 路由 START **/
