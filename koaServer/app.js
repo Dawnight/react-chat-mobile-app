@@ -19,7 +19,7 @@ const DB_URL = `${MONGODB.prefix}${MONGODB.host}:${MONGODB.port}/${MONGODB.datab
 
 mongoose.Promise = global.Promise;
 
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 mongoose.connect(DB_URL, {useNewUrlParser: true});
 
@@ -52,16 +52,16 @@ const io = new IO({
 io.attach(app);
 // console.log(io);
 app._io.on('connection', async (socket) => {
-  log('>>>>>>>>>>>>>>> connection success >>>>>>>>>>>>>>>', 'green');
+  // log('>>>>>>>>>>>>>>> connection success >>>>>>>>>>>>>>>', 'green');
   socket.on('sendMsg', async res => {
-    log('sendMsg', 'green');
-    console.log(res);
+    // log('sendMsg', 'green');
+    // console.log(res);
     const {from, to, content} = res;
     const chatId = [from, to].sort().join('_');
     let chat = await Chat.create({chatId, from, to, content});
     app._io.emit('receiveMsg', Object.assign({}, chat._doc));
-    log('receiveMsg');
-    console.log(res);
+    // log('receiveMsg');
+    // console.log(res);
   });
 });
 
@@ -71,7 +71,7 @@ io.on('error', function (err) {
 });
 
 /** 中间件 START **/
-app.use(logger());
+// app.use(logger());
 app.use(json());
 app.use(bodyParser());
 const sessionConfig = {
