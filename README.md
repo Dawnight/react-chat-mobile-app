@@ -1,6 +1,6 @@
 # react-chat-mobile-app
 
-### socket.io是什么
+### 1. socket.io是什么
 + 基于事件的实时双向通信库
 	- 基于websocket协议
 	- 前后端通过事件进行双向通信
@@ -9,10 +9,10 @@
 	- 后端可以主动推送数据
 	- 现代浏览器均支持websocket协议
 
-### React原理
-##### 虚拟DOM
+### 2. React原理
+##### 2.1 虚拟DOM
 
-##### 生命周期函数
+##### 2.2 生命周期函数
 + 在某一个时刻，组件会自动调用执行的函数
 + Initialization
     + `setup props and state`
@@ -35,11 +35,9 @@
 + Ummount
     + `componentWillUnmount`，当这个组件即将被页面剔除的时候，会被执行
 
-##### setState
 
-
-### Redux原理
-##### Redux工作流程
+### 3. Redux原理
+##### 3.1 Redux工作流程
 + 每一个组件都从store里修改数据
 + action creators是修改数据的动作
 + store，存储了所有的数据
@@ -57,8 +55,7 @@
 + redux-thunk可以让我们在action中写函数
 
 
-### React+Redux常见性能优化策略
-##### React组件优化
+##### 3.2 React组件优化
 + 属性传递优化
 	- 调用函数时，在constructor中绑定this，因为在render中绑定，每次渲染都要再次绑定this
 	- 传递值的时候，尽量把值先定义好，然后再传递，防止每次传递的时候都要 创建一个值
@@ -66,4 +63,10 @@
 + 多组件优化
 + key
 
-
+### 4. 新版本带来的优化和新功能
++ 新的核心算法Fiber
++ render可以返回数组，字符串
++ 错误处理机制
++ Partals组件
++ 更好更快的服务端渲染
++ 体积更小，MIT协议

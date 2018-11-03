@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Route} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import {NavBar} from 'antd-mobile';
 import NavLinkBar from 'components/NavLinkBar/';
 import Boss from 'container/Boss/';
@@ -46,7 +46,8 @@ class Dashboard extends Component {
         component: PersonCenter
       }
     ];
-    return (
+    const page = navList.find(item => item.path === pathname);
+    return page ? (
       <div>
         <NavBar className="fixed-header" mode="dark">
           {/*{navList.find(k => k.path === pathname).title || '/login'}*/}
@@ -63,7 +64,7 @@ class Dashboard extends Component {
         </div>
         <NavLinkBar navList={navList}/>
       </div>
-    )
+    ): <Redirect to="/message"/>
   }
 
   componentDidMount() {
