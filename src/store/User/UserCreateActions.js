@@ -65,14 +65,20 @@ export const login = userInfo => {
   let param = {};
   param.userName = userName;
   param.password = password;
-  return dispatch => {
-    postCommonApi('/user/login', param).then(response => {
-      if (response.code === CODE_OK) {
-        dispatch(loginSuccess(response.data));
-      } else {
-        dispatch(errorMsg(response.msg));
-      }
-    })
+  return async dispatch => {
+    let response = await postCommonApi('/user/login', param);
+    if (response.code === CODE_OK) {
+      dispatch(loginSuccess(response.data));
+    } else {
+      dispatch(errorMsg(response.msg));
+    }
+    // postCommonApi('/user/login', param).then(response => {
+    //   if (response.code === CODE_OK) {
+    //     dispatch(loginSuccess(response.data));
+    //   } else {
+    //     dispatch(errorMsg(response.msg));
+    //   }
+    // })
   };
 };
 
